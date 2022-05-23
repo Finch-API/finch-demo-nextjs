@@ -2,7 +2,7 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
-//import { useProfile } from '../lib/user-profile';
+import { useSession, signIn, signOut } from 'next-auth/react';
 //import OrgsDropdown  from '../components/orgs-dropdown'
 
 const navigation = [
@@ -15,11 +15,10 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
-  const profile = null;
-  //const { profile, isError, isLoading } = useProfile();
+  //const profile = null;
+  const { data:session } = useSession();
   //if (isError) return <div>{isError.message}</div>;
   // TODO: handle isLoading state for profile in header
-
 
   return (
     <Disclosure as="nav" className="bg-white">
@@ -76,14 +75,14 @@ export default function NavBar() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">
                   <div>
-                    {!profile ? 
-                      (<a href="/api/auth/login">Login</a>) 
+                    {!session ? 
+                      (<a href="/api/auth/signin/github">Login</a>) 
                       : 
                       (<Menu.Button className="bg-white-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src={profile?.picture}
+                          src={session?.user.image}
                           alt=""
                         />
                       </Menu.Button>)
@@ -132,7 +131,7 @@ export default function NavBar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="/api/auth/logout"
+                            href="/api/auth/signout"
                             className={classNames(active ? 'bg-gray-100 border-t' : '', 'block px-4 py-2 text-sm text-gray-700 border-t')}
                           >
                             Sign out
