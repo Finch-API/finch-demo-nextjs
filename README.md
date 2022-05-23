@@ -7,8 +7,8 @@ Description
 ### Prerequisites
 
 There are a few things you will need setup on your computer before getting started:
-1.
-2.
+
+1. Set up Github OAuth Client
 
 ## How to use
 
