@@ -1,5 +1,5 @@
 import NextAuth from "next-auth"
-import EmailProvider from "next-auth/providers/email";
+//import EmailProvider from "next-auth/providers/email";
 import GithubProvider from "next-auth/providers/github"
 // import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter"
 // import upstashRedisClient from "@upstash/redis"
