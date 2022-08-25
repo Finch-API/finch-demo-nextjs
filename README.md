@@ -8,7 +8,7 @@ Description
 
 There are a few things you will need setup on your computer before getting started:
 
-1. Set up Github OAuth Client
+1. Create a Redis Database via Upstash
 
 ## How to use
 
@@ -21,13 +21,9 @@ The benefits of using Gitpod vs running locally is that this entire workshop can
 Create a `.env.local` file (or copy our example file `cp .env.local.example .env.local`).
 
 ```bash
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET='Run `$ openssl rand -base64 32` in your terminal to generate a secret'
-
-GITHUB_CLIENT_ID=
-GITHUB_CLIENT_SECRET=
-
-DATABASE_URL=sqlite://localhost/:memory:?synchronize=true
+NEXT_PUBLIC_FINCH_CLIENT_ID=
+FINCH_CLIENT_SECRET=
+REDIS_URL=
 ```
 
 ### Using local machine
