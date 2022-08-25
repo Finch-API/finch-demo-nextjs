@@ -2,7 +2,7 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
-import { useSession, signIn, signOut } from 'next-auth/react';
+//import { useSession, signIn, signOut } from 'next-auth/react';
 //import OrgsDropdown  from '../components/orgs-dropdown'
 
 const navigation = [
@@ -16,7 +16,7 @@ function classNames(...classes) {
 
 export default function NavBar() {
   //const profile = null;
-  const { data:session } = useSession();
+  //const { data:session } = useSession();
   //if (isError) return <div>{isError.message}</div>;
   // TODO: handle isLoading state for profile in header
 
@@ -69,11 +69,11 @@ export default function NavBar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                
+
                 {/* <OrgsDropdown /> */}
 
                 {/* Profile dropdown */}
-                <Menu as="div" className="ml-3 relative">
+                {/* <Menu as="div" className="ml-3 relative">
                   <div>
                     {!session ? 
                       (<a href="/api/auth/signin/github">Login</a>) 
@@ -140,7 +140,7 @@ export default function NavBar() {
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
-                </Menu>
+                </Menu> */}
               </div>
             </div>
           </div>

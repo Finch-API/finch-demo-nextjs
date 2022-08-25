@@ -1,29 +1,33 @@
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import axios from 'axios'
 import Redis from 'ioredis'
+import type { NextApiRequest, NextApiResponse } from 'next'
+
+type resData = {
+    msg: string
+}
 
 let redis = new Redis(process.env.REDIS_URL);
 
-export default withApiAuthRequired(async function Callback(req, res) {
-    const session = getSession(req, res);
-    //const router = useRouter();
+export default async function Callback(req: NextApiRequest, res: NextApiResponse<resData>) {
     console.log(req.method + " /api/finch/callback ");
-    
+
     if (req.method == 'GET') {
         try {
             const code = req.query.code;
             const state = req.query.state
             const type = req.query.type;
 
-            const authHeader = Buffer.from(process.env.FINCH_CLIENT_ID + ":" + process.env.FINCH_CLIENT_SECRET).toString('base64');
-    
             let body = {};
             if (type == "embedded") {
                 body = {
+                    client_id: process.env.PUBLIC_NEXT_FINCH_CLIENT_ID,
+                    client_secret: process.env.FINCH_CLIENT_SECRET,
                     code: code,
                 }
             } else {
                 body = {
+                    client_id: process.env.PUBLIC_NEXT_FINCH_CLIENT_ID,
+                    client_secret: process.env.FINCH_CLIENT_SECRET,
                     code: code,
                     redirect_uri: process.env.BASE_URL + "/api/finch/callback"
                 }
@@ -33,28 +37,23 @@ export default withApiAuthRequired(async function Callback(req, res) {
             const authRes = await axios({
                 method: 'post',
                 url: 'https://api.tryfinch.com/auth/token',
-                headers: {
-                    Authorization: `Basic ${authHeader}`
-                },
                 data: body
             })
             console.log(authRes.data);
 
-            if (session.user.org_id) {
-                await redis.lpush(session.user.org_id, authRes.data.access_token);
-            } else {
-                await redis.lpush(session.user.email, authRes.data.access_token);
-            }
+            // TODO: Call the /introspect endpoint to get the user id used for token.
+
+            await redis.lpush('tyler@tryfinch.com', authRes.data.access_token);
 
             // token successful, return back to location
             return res.redirect('/');
         } catch (error) {
             console.error(error);
-            return res.status(500).json({msg: "Error retrieving access token."})
+            return res.status(500).json({ msg: "Error retrieving access token." })
         }
     }
 
-    return res.status(405).json({msg: "Method not implemented."})
-    
+    return res.status(405).json({ msg: "Method not implemented." })
 
-});
+
+};

@@ -12,17 +12,17 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Providers({user}) {
+export default function Providers({ user }) {
   //const { profile, isError, isLoading } = useProfile()
   const { data, error } = useSWR('/api/finch/introspect', fetcher)
-  const [ providers, setProviders ] = useState([]);
-  const { data:session } = useSession()  
-  
+  const [providers, setProviders] = useState([]);
+  const { data: session } = useSession()
+
   useEffect(() => {
     //console.log(data);
     setProviders(data);
   }, [data])
-  
+
   //if (isLoading) return <div>Loading...</div>;
   if (!providers) return "";
   if (error) return <div>{error.message}</div>
@@ -53,13 +53,13 @@ export default function Providers({user}) {
                 Read account information associated with an access tokens
               </h3>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                Contains client_id, Finch uuid, array of authorized Finch products, account username used for login, and payroll provider associated with a specific access token. 
+                Contains client_id, Finch uuid, array of authorized Finch products, account username used for login, and payroll provider associated with a specific access token.
               </p>
             </div>
             <div className="border-t border-gray-200">
               <dl>
                 {providersList.map((item, index) => (
-                  <div className={classNames(index % 2 === 0 ? 'bg-gray-50' :  'bg-white', ' px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6')}>
+                  <div className={classNames(index % 2 === 0 ? 'bg-gray-50' : 'bg-white', ' px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6')}>
                     <dt className="text-sm font-medium text-gray-500">
                       {item.token}
                     </dt>
@@ -97,22 +97,22 @@ export default function Providers({user}) {
                 Read account information associated with an access tokens
               </h3>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                Contains client_id, Finch uuid, array of authorized Finch products, account username used for login, and payroll provider associated with a specific access token. 
+                Contains client_id, Finch uuid, array of authorized Finch products, account username used for login, and payroll provider associated with a specific access token.
               </p>
             </div>
             <div className="border-t border-gray-200">
               <dl>
-                  <div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-                    <dt className="text-sm font-medium text-gray-500">
-                      <div className='flex items-start space-x-4'>
-                        <ExclamationCircleIcon className="h-12 w-12 text-rose-700 mr-2"/> 
-                        No providers exist for this organization. Please connect a provider before inspecting tokens.
-                      </div>
-                    </dt>
-                    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                      <FinchConnect />
-                    </dd>
-                  </div>
+                <div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+                  <dt className="text-sm font-medium text-gray-500">
+                    <div className='flex items-start space-x-4'>
+                      <ExclamationCircleIcon className="h-12 w-12 text-rose-700 mr-2" />
+                      No providers exist for this organization. Please connect a provider before inspecting tokens.
+                    </div>
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    <FinchConnect />
+                  </dd>
+                </div>
               </dl>
             </div>
           </div>
