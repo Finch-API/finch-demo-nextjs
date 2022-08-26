@@ -2,15 +2,18 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { ErrorEvent, SuccessEvent, useFinchConnect } from 'react-finch-connect';
 //import { useSession, signIn, signOut } from 'next-auth/react';
 //import OrgsDropdown  from '../components/orgs-dropdown'
 
 const navigation = [
-  { name: 'Home', href: '/', current: true },
+  { name: 'Home', href: '/', current: false },
   { name: 'About', href: '/about', current: false },
+  { name: 'Connections', href: '/connections', current: false }
 ]
 
-function classNames(...classes) {
+
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
@@ -19,6 +22,23 @@ export default function NavBar() {
   //const { data:session } = useSession();
   //if (isError) return <div>{isError.message}</div>;
   // TODO: handle isLoading state for profile in header
+
+  const onSuccess = (e: SuccessEvent) => {
+    //setCode(e.code);
+    return fetch(`/api/finch/callback?code=${e.code}&type=embedded`)
+  }
+  const onError = (e: ErrorEvent) => console.error(e.errorMessage);
+  const onClose = () => console.log("User exited Finch Connect");
+
+  const { open: openFinch } = useFinchConnect({
+    clientId: process.env.NEXT_PUBLIC_FINCH_CLIENT_ID ?? '',
+    //payrollProvider: '<payroll-provider-id>',
+    products: ["company", "directory"],
+    sandbox: true,
+    onSuccess,
+    onError,
+    onClose,
+  });
 
   return (
     <Disclosure as="nav" className="bg-white">
@@ -65,6 +85,13 @@ export default function NavBar() {
                         {item.name}
                       </a>
                     ))}
+                    <button
+                      type='button'
+                      onClick={() => openFinch()}
+                      className="text-gray-700 hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium">
+                      + New Connection
+                    </button>
+
                   </div>
                 </div>
               </div>

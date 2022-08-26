@@ -9,15 +9,15 @@ import { ErrorEvent, SuccessEvent, useFinchConnect } from 'react-finch-connect';
 export default function FinchConnect() {
     // const { profile, isError, isLoading } = useProfile();
     // if (isError) return <div>{isError.message}</div>;
-    const [code, setCode] = useState<string>('');
+    // const [code, setCode] = useState<string>('');
 
-    useEffect(() => {
-        console.log(code);
-    }, [code])
+    // useEffect(() => {
+    //     console.log(code);
+    // }, [code])
 
     const onSuccess = (e: SuccessEvent) => {
-        setCode(e.code);
-        return fetch(`/api/finch/callback?code=${code}&type=embedded`)
+        //setCode(e.code);
+        return fetch(`/api/finch/callback?code=${e.code}&type=embedded`)
     }
     const onError = (e: ErrorEvent) => console.error(e.errorMessage);
     const onClose = () => console.log("User exited Finch Connect");
