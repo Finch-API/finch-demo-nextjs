@@ -72,8 +72,12 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
 
             await redis.sadd('user_connections', `${tokenRes.data.payroll_provider_id}:${tokenRes.data.company_id}`)
             await redis.lpush(`${tokenRes.data.payroll_provider_id}:${tokenRes.data.company_id}`, authRes.data.access_token);
-
             //await redis.lpush(`${session.user.org_id}:${tokenRes.data.payroll_provider_id}:${tokenRes.data.company_id}`, authRes.data.access_token);
+
+
+            // Keep the newly setup connection's access_token to use for subsequent calls to Finch's APIs.
+            await redis.set('current_connection', authRes.data.access_token)
+
 
 
             // token successful, return back to location
