@@ -25,7 +25,7 @@ export default function FinchConnect() {
     const { open } = useFinchConnect({
         clientId: process.env.NEXT_PUBLIC_FINCH_CLIENT_ID ?? '',
         //payrollProvider: '<payroll-provider-id>',
-        products: ["company", "directory"],
+        products: ["company", "directory", "individual", "employment", "payment", "pay_statement", "benefits"],
         sandbox: true,
         onSuccess,
         onError,

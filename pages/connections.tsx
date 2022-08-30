@@ -65,7 +65,7 @@ export default function Connections() {
               Finch
             </h2>
             <p className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-              My Connections
+              Your Connections
             </p>
             <p className="mt-4 mb-16 max-w-2xl text-xl text-gray-500 lg:mx-auto">
               Each connection is represented by an access token. Each token contains the provider name, the username used for login, an array of authorized Finch products (i.e. permissions), and if the connection is automated or manual.
@@ -126,7 +126,7 @@ export default function Connections() {
               Finch
             </h2>
             <p className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-              My Connections
+              Your Connections
             </p>
             <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
               Each connection is represented by an access token. Each token contains the provider name, the username used for login, an array of authorized Finch products (i.e. permissions), and if the connection is automated or manual.

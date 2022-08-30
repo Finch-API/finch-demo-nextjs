@@ -8,7 +8,6 @@ import { ErrorEvent, SuccessEvent, useFinchConnect } from 'react-finch-connect';
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
-  { name: 'My Connections', href: '/connections', current: false },
   { name: 'Directory', href: '/directory', current: false }
 ]
 
@@ -33,7 +32,7 @@ export default function NavBar() {
   const { open: openFinch } = useFinchConnect({
     clientId: process.env.NEXT_PUBLIC_FINCH_CLIENT_ID ?? '',
     //payrollProvider: '<payroll-provider-id>',
-    products: ["company", "directory"],
+    products: ["company", "directory", "individual", "employment", "payment", "pay_statement", "benefits"],
     sandbox: true,
     onSuccess,
     onError,
@@ -100,20 +99,16 @@ export default function NavBar() {
                 {/* <OrgsDropdown /> */}
 
                 {/* Profile dropdown */}
-                {/* <Menu as="div" className="ml-3 relative">
+                <Menu as="div" className="ml-3 relative">
                   <div>
-                    {!session ? 
-                      (<a href="/api/auth/signin/github">Login</a>) 
-                      : 
-                      (<Menu.Button className="bg-white-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                        <span className="sr-only">Open user menu</span>
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src={session?.user.image}
-                          alt=""
-                        />
-                      </Menu.Button>)
-                    } 
+                    <Menu.Button className="bg-white-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-600 focus:ring-white">
+                      <span className="sr-only">Open user menu</span>
+                      <span className="inline-block h-8 w-8 overflow-hidden rounded-full bg-gray-100">
+                        <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                      </span>
+                    </Menu.Button>
                   </div>
                   <Transition
                     as={Fragment}
@@ -125,7 +120,7 @@ export default function NavBar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
+                      {/* <Menu.Item>
                         {({ active }) => (
                           <a
                             href="/profile"
@@ -134,18 +129,18 @@ export default function NavBar() {
                             Your Profile
                           </a>
                         )}
-                      </Menu.Item>
+                      </Menu.Item> */}
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="/providers"
+                            href="/connections"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Your Providers
+                            Your Connections
                           </a>
                         )}
                       </Menu.Item>
-                      <Menu.Item>
+                      {/* <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
@@ -154,20 +149,20 @@ export default function NavBar() {
                             Settings
                           </a>
                         )}
-                      </Menu.Item>
+                      </Menu.Item> */}
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="/api/auth/signout"
-                            className={classNames(active ? 'bg-gray-100 border-t' : '', 'block px-4 py-2 text-sm text-gray-700 border-t')}
+                            onClick={() => openFinch()}
+                            className={classNames(active ? 'bg-gray-100 border-t cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 border-t')}
                           >
-                            Sign out
+                            + New Connection
                           </a>
                         )}
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
-                </Menu> */}
+                </Menu>
               </div>
             </div>
           </div>

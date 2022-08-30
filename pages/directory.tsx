@@ -9,7 +9,7 @@ import FinchConnect from '../components/finch-connect'
 import NProgress from 'nprogress';
 
 // TODO: put this into a @types file
-type FinchIndividual = {
+type FinchEmployee = {
   id: string,
   first_name: string,
   middle_name: string,
@@ -27,7 +27,7 @@ type FinchDirectory = {
     count: number
     offset: number
   },
-  individuals: FinchIndividual[]
+  individuals: FinchEmployee[]
 }
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -87,20 +87,20 @@ export default function Directory() {
                         </tr>
                       </thead>
                       <tbody className="bg-white">
-                        {employees.map((item, index) => (
+                        {employees.map((employee, index) => (
                           <tr className="border-t border-gray-300" key={index}>
-                            <td className="whitespace-nowrap py-4 pl-4 text-sm font-semibold text-gray-900 sm:pl-6">{item.id}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{item?.first_name}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{item?.last_name}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{item?.department.name}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{item?.manager?.id}</td>
+                            <td className="whitespace-nowrap py-4 pl-4 text-sm font-semibold text-gray-900 sm:pl-6">{employee.id}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.first_name}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.last_name}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.department.name}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.manager?.id}</td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                               <span className={classNames(
-                                item.is_active ? 'text-green-800 bg-green-100' : 'text-red-800 bg-red-100', 'inline-flex rounded-full px-2 text-xs font-semibold leading-5 '
-                              )}>{(item.is_active) ? 'Active' : 'Inactive'}</span>
+                                employee.is_active ? 'text-green-800 bg-green-100' : 'text-red-800 bg-red-100', 'inline-flex rounded-full px-2 text-xs font-semibold leading-5 '
+                              )}>{(employee.is_active) ? 'Active' : 'Inactive'}</span>
                             </td>
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                              <button className="text-indigo-600 hover:text-indigo-900">View<span className="sr-only">{item.id}</span></button>
+                              <a href={`/api/finch/individual/${employee.id}`} className="text-indigo-600 hover:text-indigo-900">View<span className="sr-only">{employee.id}</span></a>
                             </td>
                           </tr>
                         ))}
