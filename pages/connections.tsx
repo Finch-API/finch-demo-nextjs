@@ -5,15 +5,29 @@ import {
 } from '@heroicons/react/outline'
 import FinchConnect from '../components/finch-connect'
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+// TODO: put this into a @types file
+type FinchProvider = {
+  token: string,
+  data: FinchToken
+}
+type FinchToken = {
+  client_id: string,
+  company_id: string,
+  products: string[],
+  username: string,
+  payroll_provider_id: string,
+  manual: boolean
+}
 
-function classNames(...classes) {
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Connections({ user }) {
+export default function Connections() {
   const { data, error, isValidating } = useSWR('/api/finch/introspect', fetcher, { revalidateOnFocus: false })
-  const [providers, setProviders] = useState();
+  const [providers, setProviders] = useState<FinchProvider[]>();
 
   useEffect(() => {
     console.log(data?.data);
@@ -26,7 +40,7 @@ export default function Connections({ user }) {
 
   const providersList = Array.from(providers);
 
-  function disconnect(payroll_provider_id, company_id) {
+  function disconnect(payroll_provider_id: string, company_id: string) {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -37,12 +51,12 @@ export default function Connections({ user }) {
       .then(response => response.json())
       .then(data => {
         console.log(data)
-        window.location.reload(false);
+        window.location.reload();
       })
 
   }
 
-  if (!providersList.length == 0) {
+  if (providersList.length !== 0) {
     return (
       <div className="bg-white py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -51,7 +65,7 @@ export default function Connections({ user }) {
               Finch
             </h2>
             <p className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-              Your Current Connections
+              My Connections
             </p>
             <p className="mt-4 mb-16 max-w-2xl text-xl text-gray-500 lg:mx-auto">
               Each connection is represented by an access token. Each token contains the provider name, the username used for login, an array of authorized Finch products (i.e. permissions), and if the connection is automated or manual.
@@ -112,7 +126,7 @@ export default function Connections({ user }) {
               Finch
             </h2>
             <p className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-              Your Current Connections
+              My Connections
             </p>
             <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
               Each connection is represented by an access token. Each token contains the provider name, the username used for login, an array of authorized Finch products (i.e. permissions), and if the connection is automated or manual.

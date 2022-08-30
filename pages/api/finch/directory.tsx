@@ -6,23 +6,24 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 let redis = new Redis(process.env.REDIS_URL ?? '');
 
 // TODO: put this into a @types file
-type DirectoryRes = {
+type FinchIndividual = {
+    id: string,
+    first_name: string | null,
+    middle_name: string,
+    manager: {
+        id: string
+    },
+    department: {
+        name: string
+    },
+    is_active: boolean
+}
+type FinchDirectory = {
     paging: {
         count: number
         offset: number
     },
-    individuals: {
-        id: string,
-        first_name: string,
-        middle_name: string,
-        manager: {
-            id: string
-        },
-        department: {
-            name: string
-        },
-        is_active: boolean
-    }[]
+    individuals: FinchIndividual[]
 }
 
 export default async function Directory(req: NextApiRequest, res: NextApiResponse) {
@@ -35,7 +36,7 @@ export default async function Directory(req: NextApiRequest, res: NextApiRespons
 
             //const tokens = await redis.lrange('user_tokens', 0, -1);
 
-            const directoryRes = await axios.request<DirectoryRes>({
+            const directoryRes = await axios.request<FinchDirectory>({
                 method: 'get',
                 url: 'https://api.tryfinch.com/employer/directory',
                 headers: {
