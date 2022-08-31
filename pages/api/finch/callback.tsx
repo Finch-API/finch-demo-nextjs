@@ -81,7 +81,7 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
 
 
             // token successful, return back to location
-            return res.redirect('/');
+            return res.redirect('/connections');
         } catch (error) {
             console.error(error);
             return res.status(500).json({ msg: "Error retrieving access token." })

@@ -63,7 +63,7 @@ export default function Employee() {
           <p className="mt-4 mb-16 max-w-2xl text-xl text-gray-500 lg:mx-auto">
             Read individual data including income and employment data.
             <br></br>
-            Learn more about the <a className='text-indigo-600' href="/employer/individual">/individual</a> and the <a className='text-indigo-600' href="/employer/individual">/employment</a> API Endpoints.
+            Learn more about the <a className='text-indigo-600' href="https://developer.tryfinch.com/docs/reference/9d6c83b09e205-individual" target="_blank">/individual</a> and the <a className='text-indigo-600' href="https://developer.tryfinch.com/docs/reference/1ba5cdec4c979-employment" target="_blank">/employment</a> API Endpoints.
           </p>
         </div>
 
