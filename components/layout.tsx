@@ -12,6 +12,7 @@ async function fetchWithProgress(url: string) {
   NProgress.start()
   const data = await fetch(url).then((res) => res.json());
   NProgress.done()
+  NProgress.remove()
   return data;
 }
 
