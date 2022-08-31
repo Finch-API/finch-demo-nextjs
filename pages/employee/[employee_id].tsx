@@ -1,65 +1,86 @@
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import {
   ExclamationCircleIcon
 } from '@heroicons/react/outline'
-import FinchConnect from '../components/finch-connect'
+import FinchConnect from '../../components/finch-connect'
+
+// TODO: integrate NProgress for loading state. Requires next.js getServerSideProps.
+import NProgress from 'nprogress';
 
 // TODO: put this into a @types file
-type FinchProvider = {
-  token: string,
-  data: FinchToken
+type FinchEmployee = {
+  id: string,
+  first_name: string,
+  middle_name: string,
+  last_name: string
+  manager: {
+    id: string
+  },
+  department: {
+    name: string
+  },
+  is_active: boolean
 }
-type FinchToken = {
-  client_id: string,
-  company_id: string,
-  products: string[],
-  username: string,
-  payroll_provider_id: string,
-  manual: boolean
+type FinchDirectory = {
+  paging: {
+    count: number
+    offset: number
+  },
+  individuals: FinchEmployee[]
 }
+type FinchIndividual = {
+  id: string,
+  first_name: string | null,
+  middle_name: string,
+  last_name: string,
+  preferred_name: string,
+  emails: {
+    data: string,
+    type: 'work' | 'personal',
+  }[],
+  phone_numbers: {
+    data: string,
+    type: 'work' | 'personal' | null,
+  }[],
+  gender: 'female' | 'male' | 'other' | 'decline_to_specify' | null,
+  dob: string,
+  residence: {
+    line1: string,
+    line2: string,
+    city: string,
+    state: string,
+    postal_code: string,
+    country: string
+  }
+}
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
-/*
-  PLEASE DO NOT EVER DO THIS IN PRODUCTION!!
-  Access Token should only be known by your backend; never pass the token to the frontend.
-  You could still have an API endpoint that returned the token details (payroll_provider_id, company_id, etc),
-  but it should never return the actual access_token.
-*/
-export default function Connections() {
-  const { data, error, isValidating } = useSWR('/api/finch/introspect', { revalidateOnFocus: false })
-  const [providers, setProviders] = useState<FinchProvider[]>();
+
+export default function Employee() {
+  const { employee_id } = useRouter().query;
+  console.log("employee_id: " + employee_id)
+  const { data, error, isValidating } = useSWR(`/api/finch/individual/${employee_id}`, fetcher, { revalidateOnFocus: false })
+  const [employee, setEmployee] = useState<FinchIndividual>();
 
   useEffect(() => {
+    console.log(error)
     console.log(data?.data);
-    setProviders(data?.data);
+    setEmployee(data?.data);
   }, data)
 
   //if (isLoading) return <div>Loading...</div>;
-  if (!providers || isValidating) return "";
+  if (!employee || isValidating) return "";
   if (error) return <div>{error.message}</div>
 
-  const providersList = Array.from(providers);
+  //const employees = Array.from(employee.individuals);
 
-  function disconnect(payroll_provider_id: string, company_id: string) {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ payroll_provider_id, company_id })
-    };
-
-    fetch('/api/finch/disconnect', requestOptions)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        window.location.reload();
-      })
-
-  }
-
-  if (providersList.length !== 0) {
+  if (employee) {
     return (
       <div className="bg-white py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -68,10 +89,10 @@ export default function Connections() {
               Finch
             </h2>
             <p className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-              Your Connections
+              Company Directory
             </p>
             <p className="mt-4 mb-16 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-              Each connection is represented by an access token. Each token contains the provider name, the username used for login, an array of authorized Finch products (i.e. permissions), and if the connection is automated or manual.
+              Retrieve an entire company's employee directory + organizational structure directly from their payroll provider's system.
             </p>
           </div>
 
@@ -83,32 +104,28 @@ export default function Connections() {
                     <table className="min-w-full">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th scope="col" className="py-3.5 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6">Access Token</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Provider_ID</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Company_ID</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Username</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Products</th>
-                          {/* <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Manual</th> */}
+                          <th scope="col" className="py-3.5 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6">Individual Id</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">First Name</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Last Name</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Department</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Manager Id</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Is Active?</th>
                           <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                            <span className="sr-only">Disconnect</span>
+                            <span className="sr-only">View</span>
                           </th>
                         </tr>
                       </thead>
                       <tbody className="bg-white">
-                        {providersList.map((item, index) => (
-                          <tr className="border-t border-gray-300" key={index}>
-                            <td className="whitespace-nowrap py-4 pl-4 text-sm font-normal text-gray-500 sm:pl-6">{item.token}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{item.data.payroll_provider_id}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{item.data.company_id}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{item.data.username}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{JSON.stringify(item.data.products, null, 2)}</td>
-                            {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{JSON.stringify(item.info.manual)}</td> */}
-                            <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                              <button onClick={() => disconnect(item.data.payroll_provider_id, item.data.company_id)} className="text-indigo-600 hover:text-indigo-900">Disconnect<span className="sr-only">{item.token}</span></button>
-                            </td>
-                          </tr>
-                        ))}
-
+                        <tr className="border-t border-gray-300">
+                          <td className="whitespace-nowrap py-4 pl-4 text-sm font-semibold text-gray-900 sm:pl-6">{employee.id}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.first_name}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.last_name}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.dob}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.gender}</td>
+                          <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                            <a href={`/api/finch/individual/${employee.id}`} className="text-indigo-600 hover:text-indigo-900">View<span className="sr-only">{employee.id}</span></a>
+                          </td>
+                        </tr>
 
                       </tbody>
                     </table>
@@ -129,7 +146,7 @@ export default function Connections() {
               Finch
             </h2>
             <p className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-              Your Connections
+              My Connections
             </p>
             <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
               Each connection is represented by an access token. Each token contains the provider name, the username used for login, an array of authorized Finch products (i.e. permissions), and if the connection is automated or manual.

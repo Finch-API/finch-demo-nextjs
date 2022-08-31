@@ -70,9 +70,9 @@ export default async function Individual(req: NextApiRequest, res: NextApiRespon
             //console.log(tokenData);
 
             // token successful, return back to location
-            return res.status(200).json({ data: individualRes.data, msg: "Success" });
+            return res.status(200).json({ data: individualRes.data.responses[0].body, msg: "Success" });
         } catch (error) {
-            console.error(error);
+            //console.error(error);
             return res.status(500).json({ msg: "Error retrieving individual" })
         }
     }

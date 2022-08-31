@@ -101,7 +101,7 @@ export default function NavBar() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">
                   <div>
-                    <Menu.Button className="bg-white-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-600 focus:ring-white">
+                    <Menu.Button className="bg-white-800 flex text-sm rounded-full hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-offset-blue-600 hover:ring-white">
                       <span className="sr-only">Open user menu</span>
                       <span className="inline-block h-8 w-8 overflow-hidden rounded-full bg-gray-100">
                         <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">

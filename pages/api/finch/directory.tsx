@@ -46,11 +46,11 @@ export default async function Directory(req: NextApiRequest, res: NextApiRespons
                 },
             });
 
-            //console.log(directoryRes)
+            //console.log(directoryRes.data)
             //console.log(tokenData);
 
             // token successful, return back to location
-            return res.status(200).json({ data: directoryRes.data, msg: "Success" });
+            return res.status(200).json({ data: directoryRes.data });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ msg: "Error retrieving company directory" })
