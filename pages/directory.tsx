@@ -62,14 +62,16 @@ export default function Directory() {
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.first_name}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.last_name}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.department.name}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.manager?.id}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.manager?.id ? (<a className="text-indigo-600" href={`/employee/${employee?.manager?.id}`}>
+                            {employee?.manager?.id}
+                          </a>) : 'none'}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                             <span className={classNames(
                               employee.is_active ? 'text-green-800 bg-green-100' : 'text-red-800 bg-red-100', 'inline-flex rounded-full px-2 text-xs font-semibold leading-5 '
                             )}>{(employee.is_active) ? 'Active' : 'Inactive'}</span>
                           </td>
                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <a href={`/api/finch/individual/${employee.id}`} className="text-indigo-600 hover:text-indigo-900">View<span className="sr-only">{employee.id}</span></a>
+                            <a href={`/employee/${employee.id}`} className="text-indigo-600 hover:text-indigo-900">View<span className="sr-only">{employee.id}</span></a>
                           </td>
                         </tr>
                       ))}

@@ -84,12 +84,12 @@ export default function NavBar() {
                         {item.name}
                       </a>
                     ))}
-                    <button
+                    {/* <button
                       type='button'
                       onClick={() => openFinch()}
                       className="text-gray-700 hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium">
                       + New Connection
-                    </button>
+                    </button> */}
 
                   </div>
                 </div>
