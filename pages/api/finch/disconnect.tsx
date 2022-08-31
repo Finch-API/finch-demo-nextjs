@@ -7,8 +7,6 @@ import { stringify } from 'querystring';
 // TODO: make this into a react hook
 let redis = new Redis(process.env.REDIS_URL ?? '');
 
-// TODO: put this into a @types file
-
 type disconnectRes = {
     status: string
 }

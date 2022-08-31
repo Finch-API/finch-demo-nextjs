@@ -12,6 +12,10 @@ There are a few things you will need setup on your computer before getting start
 
 ## How to use
 
+Uses SWR to fetch api requests. A global fetcher function is used which includes a progress bar when loading. Editable in components/layout.tsx.
+
+Finch Data Types can be found in types/finch.d.ts.
+
 ### Using Gitpod
 
 The benefits of using Gitpod vs running locally is that this entire workshop can be done completely in a browser - no additional software dependencies required.

@@ -4,11 +4,9 @@ import Footer from './footer'
 import NProgress from 'nprogress';
 import useSWR, { SWRConfig } from 'swr'
 
-
 type LayoutProps = {
   children: React.ReactNode,
 };
-
 
 async function fetchWithProgress(url: string) {
   NProgress.start()

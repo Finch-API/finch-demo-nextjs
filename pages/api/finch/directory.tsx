@@ -5,20 +5,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 // TODO: make this into a react hook
 let redis = new Redis(process.env.REDIS_URL ?? '');
 
-// TODO: put this into a @types file
-type FinchEmployee = {
-    id: string,
-    first_name: string | null,
-    middle_name: string,
-    last_name: string,
-    manager: {
-        id: string
-    },
-    department: {
-        name: string
-    },
-    is_active: boolean
-}
 type FinchDirectoryRes = {
     paging: {
         count: number

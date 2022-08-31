@@ -6,32 +6,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 // TODO: make this into a react hook
 let redis = new Redis(process.env.REDIS_URL ?? '');
 
-// TODO: put this into a @types file
-type FinchIndividual = {
-    id: string,
-    first_name: string | null,
-    middle_name: string,
-    last_name: string,
-    preferred_name: string,
-    emails: {
-        data: string,
-        type: 'work' | 'personal',
-    }[],
-    phone_numbers: {
-        data: string,
-        type: 'work' | 'personal' | null,
-    }[],
-    gender: 'female' | 'male' | 'other' | 'decline_to_specify' | null,
-    dob: string,
-    residence: {
-        line1: string,
-        line2: string,
-        city: string,
-        state: string,
-        postal_code: string,
-        country: string
-    }
-}
 type FinchIndividualRes = {
     responses: {
         individual_id: string,

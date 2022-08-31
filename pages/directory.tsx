@@ -5,31 +5,6 @@ import {
 } from '@heroicons/react/outline'
 import FinchConnect from '../components/finch-connect'
 
-// TODO: integrate NProgress for loading state. Requires next.js getServerSideProps.
-import loadConfig from 'next/dist/server/config';
-
-// TODO: put this into a @types file
-type FinchEmployee = {
-  id: string,
-  first_name: string,
-  middle_name: string,
-  last_name: string
-  manager: {
-    id: string
-  },
-  department: {
-    name: string
-  },
-  is_active: boolean
-}
-type FinchDirectory = {
-  paging: {
-    count: number
-    offset: number
-  },
-  individuals: FinchEmployee[]
-}
-
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }

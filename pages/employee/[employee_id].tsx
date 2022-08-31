@@ -1,62 +1,8 @@
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import {
-  ExclamationCircleIcon
-} from '@heroicons/react/outline'
+import { ExclamationCircleIcon } from '@heroicons/react/outline'
 import FinchConnect from '../../components/finch-connect'
-
-// TODO: integrate NProgress for loading state. Requires next.js getServerSideProps.
-import NProgress from 'nprogress';
-
-// TODO: put this into a @types file
-type FinchEmployee = {
-  id: string,
-  first_name: string,
-  middle_name: string,
-  last_name: string
-  manager: {
-    id: string
-  },
-  department: {
-    name: string
-  },
-  is_active: boolean
-}
-type FinchDirectory = {
-  paging: {
-    count: number
-    offset: number
-  },
-  individuals: FinchEmployee[]
-}
-type FinchIndividual = {
-  id: string,
-  first_name: string | null,
-  middle_name: string,
-  last_name: string,
-  preferred_name: string,
-  emails: {
-    data: string,
-    type: 'work' | 'personal',
-  }[],
-  phone_numbers: {
-    data: string,
-    type: 'work' | 'personal' | null,
-  }[],
-  gender: 'female' | 'male' | 'other' | 'decline_to_specify' | null,
-  dob: string,
-  residence: {
-    line1: string,
-    line2: string,
-    city: string,
-    state: string,
-    postal_code: string,
-    country: string
-  }
-}
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -65,7 +11,7 @@ function classNames(...classes: string[]) {
 export default function Employee() {
   const { employee_id } = useRouter().query;
   console.log("employee_id: " + employee_id)
-  const { data, error, isValidating } = useSWR(`/api/finch/individual/${employee_id}`, fetcher, { revalidateOnFocus: false })
+  const { data, error, isValidating } = useSWR(`/api/finch/individual/${employee_id}`, { revalidateOnFocus: false })
   const [employee, setEmployee] = useState<FinchIndividual>();
 
   useEffect(() => {

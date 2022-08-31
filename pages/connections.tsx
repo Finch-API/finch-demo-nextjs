@@ -5,23 +5,6 @@ import {
 } from '@heroicons/react/outline'
 import FinchConnect from '../components/finch-connect'
 
-// TODO: put this into a @types file
-type FinchProvider = {
-  token: string,
-  data: FinchToken
-}
-type FinchToken = {
-  client_id: string,
-  company_id: string,
-  products: string[],
-  username: string,
-  payroll_provider_id: string,
-  manual: boolean
-}
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
 /*
   PLEASE DO NOT EVER DO THIS IN PRODUCTION!!
   Access Token should only be known by your backend; never pass the token to the frontend.
