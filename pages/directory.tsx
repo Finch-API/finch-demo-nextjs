@@ -34,7 +34,7 @@ export default function Directory() {
           <p className="mt-4 mb-16 max-w-2xl text-xl text-gray-500 lg:mx-auto">
             Read an entire company's employee directory + organizational structure.
             <br></br>
-            Learn more about the <a className='text-indigo-600' href="https://developer.tryfinch.com/docs/reference/12419c085fc0e-directory" target="_blank">/directory</a> API Endpoints.
+            Learn more about the <a className='text-indigo-600' href="https://developer.tryfinch.com/docs/reference/12419c085fc0e-directory" target="_blank">/directory</a> API Endpoint.
           </p>
         </div>
 

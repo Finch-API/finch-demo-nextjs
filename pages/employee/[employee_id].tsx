@@ -1,8 +1,6 @@
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { ExclamationCircleIcon } from '@heroicons/react/outline'
-import FinchConnect from '../../components/finch-connect'
 import { Tab } from '@headlessui/react'
 
 function classNames(...classes: string[]) {
@@ -31,11 +29,10 @@ function formatCurrency(amount: number = 0, currency_code: string = 'USD') {
 
 export default function Employee() {
   const { employee_id } = useRouter().query;
-  const { data: individual, error: indError } = useSWR(() => `/api/finch/individual/${employee_id}`, { revalidateOnFocus: false })
-  const { data: employment, error: empError } = useSWR(() => `/api/finch/employment/${employee_id}`, { revalidateOnFocus: false })
+  const { data: individual, error: indError } = useSWR(employee_id ? `/api/finch/individual/${employee_id}` : null, { revalidateOnFocus: false })
+  const { data: employment, error: empError } = useSWR(employee_id ? `/api/finch/employment/${employee_id}` : null, { revalidateOnFocus: false })
   const [employee, setEmployee] = useState<FinchIndividual>();
   const [employeeEmployment, setEmployeeEmployment] = useState<FinchIndividualEmployment>();
-  const [currentTab, setCurrentTab] = useState('Individual');
 
   useEffect(() => {
     console.log(individual?.data);

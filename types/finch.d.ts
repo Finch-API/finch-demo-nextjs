@@ -89,15 +89,89 @@ type FinchIndividualEmployment = {
         country: string
     },
     income: {
-        unit: 'yearly' | 'quarterly' | 'monthly' | 'semi_monthly' | ' bi_weekly' | 'weekly' | 'daily' | 'hourly' | 'fixed'
+        unit: 'yearly' | 'quarterly' | 'monthly'
+        | 'semi_monthly' | ' bi_weekly' | 'weekly'
+        | 'daily' | 'hourly' | 'fixed'
         amount: number,
         currency: string,
         effective_date: string
     },
     income_history: {
-        unit: 'yearly' | 'quarterly' | 'monthly' | 'semi_monthly' | ' bi_weekly' | 'weekly' | 'daily' | 'hourly' | 'fixed'
+        unit: 'yearly' | 'quarterly' | 'monthly'
+        | 'semi_monthly' | ' bi_weekly' | 'weekly'
+        | 'daily' | 'hourly' | 'fixed'
         amount: number,
         currency: string,
         effective_date: string
+    }[]
+}
+
+type Money = {
+    amount: number,
+    currency: string
+}
+
+type FinchPayment = {
+    id: string;
+    pay_period: {
+        start_date: string,
+        end_date: string
+    };
+    pay_date: string,
+    debit_date: string;
+    company_debit: Money
+    gross_pay: Money
+    net_pay: Money
+    employer_taxes: Money
+    employee_taxes: Money
+    individual_ids: string[];
+}
+
+type FinchPayStatement = {
+    individual_id: string,
+    type: 'regular_payroll' | 'off_cycle_payroll' | 'one_time_payment' | null,
+    payment_method: 'check' | 'direct_deposit' | null,
+    total_hours: number,
+    gross_pay: Money,
+    net_pay: Money,
+    earnings: {
+        type: 'salary' | 'wage' | 'reimbursement'
+        | 'overtime' | 'severance' | 'double_overtime'
+        | 'pto' | 'sick' | 'bonus' | 'commission'
+        | 'tips' | '1099' | 'other' | null,
+        name: string,
+        amount: number,
+        currency: string,
+        hours: number
+    }[],
+    taxes: {
+        type: string,
+        name: string,
+        employer: boolean,
+        amount: number,
+        currency: string
+    }[],
+    employee_deductions: {
+        name: string,
+        amount: number,
+        currency: string,
+        pre_tax: boolean,
+        type: '401k' | '401k_roth' | '401k_loan'
+        | '403b' | '403b_roth' | '457' | '457_roth'
+        | 's125_medical' | 's125_dental' | 's125_vision'
+        | 'hsa_pre' | 'hsa_post' | 'fsa_medical'
+        | 'fsa_dependent_care' | 'simple_ira' | 'simple'
+        | 'commuter' | 'custom_post_tax' | 'custom_pre_tax'
+    }[],
+    employer_contributions: {
+        name: string,
+        amount: number,
+        currency: string,
+        type: '401k' | '401k_roth' | '401k_loan'
+        | '403b' | '403b_roth' | '457' | '457_roth'
+        | 's125_medical' | 's125_dental' | 's125_vision'
+        | 'hsa_pre' | 'hsa_post' | 'fsa_medical'
+        | 'fsa_dependent_care' | 'simple_ira' | 'simple'
+        | 'commuter' | 'custom_post_tax' | 'custom_pre_tax'
     }[]
 }

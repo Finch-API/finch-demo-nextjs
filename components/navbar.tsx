@@ -8,7 +8,8 @@ import { ErrorEvent, SuccessEvent, useFinchConnect } from 'react-finch-connect';
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
-  { name: 'Directory', href: '/directory', current: false }
+  { name: 'Directory', href: '/directory', current: false },
+  { name: 'Payroll', href: '/payroll', current: false }
 ]
 
 
