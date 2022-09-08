@@ -101,17 +101,17 @@ export default function Employee() {
                     <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                       <div className="sm:col-span-1">
                         <dt className="text-sm font-medium text-gray-500">Date of birth</dt>
-                        <dd className="mt-1 text-sm text-gray-900">{employee.dob}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{employee?.dob}</dd>
                       </div>
                       <div className="sm:col-span-1">
                         <dt className="text-sm font-medium text-gray-500">Gender</dt>
-                        <dd className="mt-1 text-sm text-gray-900">{employee.gender}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{employee?.gender}</dd>
                       </div>
                       <div className="sm:col-span-1">
                         <>
                           <dt className="text-sm font-medium text-gray-500">Email addresses</dt>
                           {employee.emails.map((email) => (
-                            <dd className="mt-1 text-sm text-gray-900">{email.data} <span className="mt-1 text-sm text-gray-500"> - {email.type}</span> </dd>
+                            <dd className="mt-1 text-sm text-gray-900">{email?.data} <span className="mt-1 text-sm text-gray-500"> - {email?.type}</span> </dd>
                           ))}
                         </>
                       </div>
@@ -125,10 +125,10 @@ export default function Employee() {
                       </div>
                       <div className="sm:col-span-2">
                         <dt className="text-sm font-medium text-gray-500">Residence</dt>
-                        <dd className="mt-1 text-sm text-gray-900">{employee.residence.line1}</dd>
-                        <dd className="mt-1 text-sm text-gray-900">{employee.residence.line2}</dd>
-                        <dd className="mt-1 text-sm text-gray-900">{employee.residence.city}, {employee.residence.state} {employee.residence.postal_code}</dd>
-                        <dd className="mt-1 text-sm text-gray-900">{employee.residence.country}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{employee?.residence?.line1}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{employee?.residence?.line2}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{employee?.residence?.city}, {employee?.residence?.state} {employee?.residence?.postal_code}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{employee?.residence?.country}</dd>
                       </div>
                     </dl>
                   </div>
@@ -144,11 +144,11 @@ export default function Employee() {
                       </div>
                       <div className="sm:col-span-1">
                         <dt className="text-sm font-medium text-gray-500">Department</dt>
-                        <dd className="mt-1 text-sm text-gray-900">{employeeEmployment?.department.name}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{employeeEmployment?.department?.name}</dd>
                       </div>
                       <div className="sm:col-span-1">
                         <dt className="text-sm font-medium text-gray-500">Employment type</dt>
-                        <dd className="mt-1 text-sm text-gray-900">{employeeEmployment?.employment.type} - {employeeEmployment?.employment.subtype} </dd>
+                        <dd className="mt-1 text-sm text-gray-900">{employeeEmployment?.employment?.type} - {employeeEmployment?.employment?.subtype} </dd>
                       </div>
                       <div className="sm:col-span-1">
                         <dt className="text-sm font-medium text-gray-500">Is active</dt>
@@ -178,13 +178,13 @@ export default function Employee() {
                         <dt className="text-sm font-medium text-gray-500">Location</dt>
                         <dd className="mt-1 text-sm text-gray-900">{employeeEmployment?.location.line1}</dd>
                         <dd className="mt-1 text-sm text-gray-900">{employeeEmployment?.location.line2}</dd>
-                        <dd className="mt-1 text-sm text-gray-900">{employeeEmployment?.location.city}, {employee.residence.state} {employee.residence.postal_code}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{employeeEmployment?.location.city}, {employee?.residence?.state} {employee?.residence?.postal_code}</dd>
                         <dd className="mt-1 text-sm text-gray-900">{employeeEmployment?.location.country}</dd>
                       </div>
                       <div className="sm:col-span-2">
                         <dt className="text-sm font-medium text-gray-500">Current Income</dt>
-                        <dd className="mt-1 text-sm text-gray-900">{formatCurrency(employeeEmployment?.income?.amount, employeeEmployment?.income?.currency) + ' ' + employeeEmployment?.income.currency.toUpperCase() + ' ' + employeeEmployment?.income.unit.toUpperCase()}</dd>
-                        <dd className="mt-1 text-sm text-gray-900">{'Effective: ' + employeeEmployment?.income.effective_date}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{formatCurrency(employeeEmployment?.income?.amount, employeeEmployment?.income?.currency) + ' ' + employeeEmployment?.income.currency.toUpperCase() + ' ' + employeeEmployment?.income?.unit.toUpperCase()}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{'Effective: ' + employeeEmployment?.income?.effective_date}</dd>
                       </div>
                       <div className="sm:col-span-2">
                         <dt className="text-sm font-medium text-gray-500">Income history</dt>

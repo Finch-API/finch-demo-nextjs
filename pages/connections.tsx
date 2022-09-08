@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   ExclamationCircleIcon
 } from '@heroicons/react/outline'
-import FinchConnect from '../components/finch-connect'
+import FinchConnect from '../components/finch-connect-old'
 
 /*
   PLEASE DO NOT EVER DO THIS IN PRODUCTION!!

@@ -5,16 +5,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 // TODO: make this into a react hook
 let redis = new Redis(process.env.REDIS_URL ?? '');
 
-// TODO: put this into a @types file
-type FinchToken = {
-    client_id: string,
-    company_id: string,
-    products: string[],
-    username: string,
-    payroll_provider_id: string,
-    manual: boolean
-}
-
 export default async function Introspect(req: NextApiRequest, res: NextApiResponse) {
     console.log(req.method + " /api/finch/introspect ");
 

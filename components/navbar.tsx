@@ -1,10 +1,7 @@
-/* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, ChevronDownIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
-import { ErrorEvent, SuccessEvent, useFinchConnect } from 'react-finch-connect';
-//import { useSession, signIn, signOut } from 'next-auth/react';
-//import OrgsDropdown  from '../components/orgs-dropdown'
+import { MenuIcon, XIcon } from '@heroicons/react/outline'
+import { FinchConnect } from './finch-connect'
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
@@ -12,33 +9,12 @@ const navigation = [
   { name: 'Payroll', href: '/payroll', current: false }
 ]
 
-
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function NavBar() {
-  //const profile = null;
-  //const { data:session } = useSession();
-  //if (isError) return <div>{isError.message}</div>;
-  // TODO: handle isLoading state for profile in header
-
-  const onSuccess = (e: SuccessEvent) => {
-    //setCode(e.code);
-    return fetch(`/api/finch/callback?code=${e.code}&type=embedded`)
-  }
-  const onError = (e: ErrorEvent) => console.error(e.errorMessage);
-  const onClose = () => console.log("User exited Finch Connect");
-
-  const { open: openFinch } = useFinchConnect({
-    clientId: process.env.NEXT_PUBLIC_FINCH_CLIENT_ID ?? '',
-    //payrollProvider: '<payroll-provider-id>',
-    products: ["company", "directory", "individual", "employment", "payment", "pay_statement", "benefits"],
-    sandbox: true,
-    onSuccess,
-    onError,
-    onClose,
-  });
+  const { openFinchConnect } = FinchConnect()
 
   return (
     <Disclosure as="nav" className="bg-white">
@@ -85,19 +61,10 @@ export default function NavBar() {
                         {item.name}
                       </a>
                     ))}
-                    {/* <button
-                      type='button'
-                      onClick={() => openFinch()}
-                      className="text-gray-700 hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium">
-                      + New Connection
-                    </button> */}
-
                   </div>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
-                {/* <OrgsDropdown /> */}
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">
@@ -154,7 +121,7 @@ export default function NavBar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            onClick={() => openFinch()}
+                            onClick={() => openFinchConnect()}
                             className={classNames(active ? 'bg-gray-100 border-t cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 border-t')}
                           >
                             + New Connection

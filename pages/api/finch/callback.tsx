@@ -21,11 +21,11 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
         try {
             const code = req.query.code;
             const state = req.query.state
-            const type = req.query.type;
+            const embedded = req.query.embedded;
 
             let body = {};
             // NOTE: embedded Finch Connect flow will fail if redirect_uri is included in the POST body, since it is not needed because, well, it is embedded and not redirecting.
-            if (type == "embedded") {
+            if (embedded) {
                 body = {
                     client_id: process.env.FINCH_CLIENT_ID,
                     client_secret: process.env.FINCH_CLIENT_SECRET,

@@ -45,7 +45,7 @@ export default async function PayStatement(req: NextApiRequest, res: NextApiResp
             //console.log(tokenData);
 
             // token successful, return back to location
-            return res.status(200).json({ data: payStatementRes.data.responses[0].body });
+            return res.status(200).json({ data: payStatementRes.data.responses[0].body.pay_statements });
         } catch (error) {
             //console.error(error);
             return res.status(500).json({ msg: "Error retrieving individual" })

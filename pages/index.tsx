@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import FinchConnect from '../components/finch-connect'
+import FinchConnect from '../components/finch-connect-old'
 
 const Home: NextPage = () => {
   return (

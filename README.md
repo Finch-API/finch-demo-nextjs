@@ -16,6 +16,8 @@ Uses SWR to fetch api requests. A global fetcher function is used which includes
 
 Finch Data Types can be found in types/finch.d.ts.
 
+If you want to manually set the `current_connection`, log into Upstash, go to the database CLI, and run `SET current_connection <your-access-token>`.
+
 ### Using Gitpod
 
 The benefits of using Gitpod vs running locally is that this entire workshop can be done completely in a browser - no additional software dependencies required.

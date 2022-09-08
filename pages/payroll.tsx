@@ -3,50 +3,12 @@ import { useEffect, useState } from 'react'
 import MultiRangeSlider from '../components/multi-range-slider';
 import { MinusCircleIcon } from '@heroicons/react/outline';
 import {
-    add,
     eachDayOfInterval,
-    endOfMonth,
-    format,
-    getDay,
-    isEqual,
-    isSameDay,
-    isSameMonth,
-    isToday,
-    parse,
-    parseISO,
     subYears,
     addMonths,
     startOfToday,
 } from 'date-fns'
-//import { debounce } from 'lodash'
-
-function formatCurrency(amount: number = 0, currency_code: string = 'USD') {
-    // Convert from cents
-    amount *= 100;
-    var formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: currency_code,
-    })
-    return formatter.format(amount);
-}
-
-// Date range is three years from today. A month needs to be added since the month is zero-indexed
-//const endDate = startOfToday()
-//const startDate = addMonths(subYears(startOfToday(), 3), 1)
-
-function formatDate(date: Date) {
-    return format(date, 'yyyy-MM-dd')
-}
-
-function parseDate(date: string) {
-    return parse(date, 'yyyy-MM-dd', new Date()).toLocaleDateString()
-}
-
-let timeout: number;
-function debounce(func: Function, delay: number) {
-    clearTimeout(timeout)
-    timeout = setTimeout(func, delay)
-}
+import { formatDate, formatCurrency, parseDate } from '../util/format';
 
 const initData = [
     {
@@ -2933,7 +2895,7 @@ export default function Payroll() {
                                         </thead>
                                         <tbody className="bg-white">
                                             {payroll.filter(payment => {
-                                                return payment.pay_period.start_date > formatDate(dateRange[startDateNum - 1]) && payment.pay_period.end_date < formatDate(dateRange[endDateNum - 2])
+                                                return payment?.pay_period?.start_date > formatDate(dateRange[startDateNum - 1]) && payment?.pay_period?.end_date < formatDate(dateRange[endDateNum - 2])
                                             }).map((payment, index) => (
                                                 <tr className="border-t border-gray-300" key={index}>
                                                     <td className="whitespace-nowrap py-4 pl-4 text-sm font-semibold text-gray-900 sm:pl-6">{payment.id}</td>
@@ -2944,7 +2906,7 @@ export default function Payroll() {
                                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{formatCurrency(payment.gross_pay.amount) + ' ' + payment.gross_pay.currency.toUpperCase()}</td>
                                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{formatCurrency(payment.net_pay.amount) + ' ' + payment.net_pay.currency.toUpperCase()}</td>
                                                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                        <a href={`/api/finch/pay-statement/${payment.id}`} className="text-indigo-600 hover:text-indigo-900">View<span className="sr-only">{payment.id}</span></a>
+                                                        <a href={`/payment/${payment.id}?start_date=${payment.pay_period.start_date}&end_date=${payment.pay_period.end_date}`} className="text-indigo-600 hover:text-indigo-900">View<span className="sr-only">{payment.id}</span></a>
                                                     </td>
                                                 </tr>
                                             ))}

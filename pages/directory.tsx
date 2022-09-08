@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   ExclamationCircleIcon
 } from '@heroicons/react/outline'
-import FinchConnect from '../components/finch-connect'
+import FinchConnect from '../components/finch-connect-old'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -63,8 +63,8 @@ export default function Directory() {
                           <td className="whitespace-nowrap py-4 pl-4 text-sm font-semibold text-gray-900 sm:pl-6">{employee.id}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.first_name}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.last_name}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.department.name}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.manager?.id ? (<a className="text-indigo-600" href={`/employee/${employee?.manager?.id}`}>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.department?.name ? employee?.department?.name : 'none'}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.manager?.id ? (<a className="text-indigo-600 hover:text-indigo-900" href={`/employee/${employee?.manager?.id}`}>
                             {employee?.manager?.id}
                           </a>) : 'none'}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
