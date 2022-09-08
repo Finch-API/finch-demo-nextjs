@@ -1,10 +1,6 @@
 import axios from 'axios'
-import Redis from 'ioredis'
-import { useRouter } from 'next/router';
 import type { NextApiRequest, NextApiResponse } from 'next'
-
-// TODO: make this into a react hook
-let redis = new Redis(process.env.REDIS_URL ?? '');
+import redis from '../../../../util/redis'
 
 type FinchIndividualRes = {
     responses: {

@@ -1,10 +1,6 @@
 import axios from 'axios'
-import Redis from 'ioredis'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { useRouter } from 'next/router'
-
-// TODO: make this into a react hook
-let redis = new Redis(process.env.REDIS_URL ?? '')
+import redis from '../../../util/redis'
 
 type FinchPaymentRes = {
     paging: {
