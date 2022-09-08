@@ -1,16 +1,9 @@
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
-import {
-  ExclamationCircleIcon
-} from '@heroicons/react/outline'
-import FinchConnect from '../components/finch-connect-old'
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
+import { classNames } from '../util/classnames'
 
 export default function Directory() {
-  const { data, error, isValidating } = useSWR('/api/finch/directory', { revalidateOnFocus: false })
+  const { data, error } = useSWR('/api/finch/directory', { revalidateOnFocus: false })
   const [employees, setEmployees] = useState<FinchEmployee[]>();
 
   useEffect(() => {

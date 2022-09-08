@@ -25,7 +25,6 @@ export default async function PayStatement(req: NextApiRequest, res: NextApiResp
 
     if (req.method == 'GET') {
         try {
-
             const token = await redis.get('current_connection');
             const payStatementRes = await axios.request<FinchPayStatementRes>({
                 method: 'post',
@@ -42,13 +41,12 @@ export default async function PayStatement(req: NextApiRequest, res: NextApiResp
             });
 
             console.log(payStatementRes.data.responses[0].body)
-            //console.log(tokenData);
 
-            // token successful, return back to location
+            // get individual pay statement successful, return back to location
             return res.status(200).json({ data: payStatementRes.data.responses[0].body.pay_statements });
         } catch (error) {
             //console.error(error);
-            return res.status(500).json({ msg: "Error retrieving individual" })
+            return res.status(500).json({ msg: "Error retrieving pay statement " + payment_id })
         }
     }
 

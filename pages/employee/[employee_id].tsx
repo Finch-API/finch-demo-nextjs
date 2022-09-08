@@ -2,30 +2,8 @@ import useSWR from 'swr'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Tab } from '@headlessui/react'
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
-function formatPhoneNumber(phoneNumberString: string) {
-  var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
-  var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
-  if (match) {
-    var intlCode = (match[1] ? '+1 ' : '');
-    return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
-  }
-  return null;
-}
-
-function formatCurrency(amount: number = 0, currency_code: string = 'USD') {
-  // Convert from cents
-  amount *= 100;
-  var formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency_code,
-  })
-  return formatter.format(amount);
-}
+import { formatCurrency, formatPhoneNumber } from '../../util/format'
+import { classNames } from '../../util/classnames'
 
 export default function Employee() {
   const { employee_id } = useRouter().query;
@@ -183,14 +161,14 @@ export default function Employee() {
                       </div>
                       <div className="sm:col-span-2">
                         <dt className="text-sm font-medium text-gray-500">Current Income</dt>
-                        <dd className="mt-1 text-sm text-gray-900">{formatCurrency(employeeEmployment?.income?.amount, employeeEmployment?.income?.currency) + ' ' + employeeEmployment?.income.currency.toUpperCase() + ' ' + employeeEmployment?.income?.unit.toUpperCase()}</dd>
+                        <dd className="mt-1 text-sm text-gray-900">{formatCurrency(employeeEmployment?.income?.amount) + ' ' + employeeEmployment?.income?.currency?.toUpperCase() + ' ' + employeeEmployment?.income?.unit?.toUpperCase()}</dd>
                         <dd className="mt-1 text-sm text-gray-900">{'Effective: ' + employeeEmployment?.income?.effective_date}</dd>
                       </div>
                       <div className="sm:col-span-2">
                         <dt className="text-sm font-medium text-gray-500">Income history</dt>
                         {employeeEmployment?.income_history.map((income) => (
                           <>
-                            <dd className="mt-1 text-sm text-gray-900">{formatCurrency(income?.amount, income?.currency) + ' ' + income?.currency.toUpperCase() + ' ' + income?.unit.toUpperCase()}</dd>
+                            <dd className="mt-1 text-sm text-gray-900">{formatCurrency(income?.amount) + ' ' + income?.currency.toUpperCase() + ' ' + income?.unit?.toUpperCase()}</dd>
                             <dd className="mt-1 text-sm text-gray-900">{'Effective: ' + income?.effective_date}</dd>
                           </>
 

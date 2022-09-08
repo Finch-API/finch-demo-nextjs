@@ -2,11 +2,6 @@ import axios from 'axios'
 import Redis from 'ioredis'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-// TODO: put this into a @types file
-type resData = {
-    msg: string
-}
-
 type FinchTokenRes = {
     access_token: string
 }
@@ -14,7 +9,7 @@ type FinchTokenRes = {
 // TODO: make this into a react hook
 let redis = new Redis(process.env.REDIS_URL ?? '');
 
-export default async function Callback(req: NextApiRequest, res: NextApiResponse<resData>) {
+export default async function Callback(req: NextApiRequest, res: NextApiResponse) {
     console.log(req.method + " /api/finch/callback ");
 
     if (req.method == 'GET') {
@@ -45,7 +40,6 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
                 url: 'https://api.tryfinch.com/auth/token',
                 data: body
             })
-            //console.log(tokenRes);
 
             const tokenRes = await axios({
                 method: 'get',
@@ -74,11 +68,8 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
             await redis.lpush(`${tokenRes.data.payroll_provider_id}:${tokenRes.data.company_id}`, authRes.data.access_token);
             //await redis.lpush(`${session.user.org_id}:${tokenRes.data.payroll_provider_id}:${tokenRes.data.company_id}`, authRes.data.access_token);
 
-
             // Keep the newly setup connection's access_token to use for subsequent calls to Finch's APIs.
             await redis.set('current_connection', authRes.data.access_token)
-
-
 
             // token successful, return back to location
             return res.redirect('/connections');

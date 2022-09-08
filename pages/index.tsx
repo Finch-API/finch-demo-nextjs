@@ -1,7 +1,5 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import FinchConnect from '../components/finch-connect-old'
 
 const Home: NextPage = () => {
   return (
@@ -26,8 +24,6 @@ const Home: NextPage = () => {
           </code>
           {' '} before adding a new connection.
         </p>
-
-        {/* <FinchConnect /> */}
 
         <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
           <a

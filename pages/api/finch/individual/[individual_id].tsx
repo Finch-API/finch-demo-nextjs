@@ -12,7 +12,6 @@ type FinchIndividualRes = {
         code: number
         body: FinchIndividual
     }[]
-
 }
 
 export default async function Individual(req: NextApiRequest, res: NextApiResponse) {
@@ -21,7 +20,6 @@ export default async function Individual(req: NextApiRequest, res: NextApiRespon
 
     if (req.method == 'GET') {
         try {
-
             const token = await redis.get('current_connection');
             const individualRes = await axios.request<FinchIndividualRes>({
                 method: 'post',
@@ -37,10 +35,7 @@ export default async function Individual(req: NextApiRequest, res: NextApiRespon
                 }
             });
 
-            //console.log(directoryRes)
-            //console.log(tokenData);
-
-            // token successful, return back to location
+            // Get individual info successful, return back to location
             return res.status(200).json({ data: individualRes.data.responses[0].body });
         } catch (error) {
             //console.error(error);

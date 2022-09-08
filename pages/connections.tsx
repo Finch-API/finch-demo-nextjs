@@ -1,9 +1,6 @@
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
-import {
-  ExclamationCircleIcon
-} from '@heroicons/react/outline'
-import FinchConnect from '../components/finch-connect-old'
+import { ExclamationCircleIcon } from '@heroicons/react/outline'
 
 /*
   PLEASE DO NOT EVER DO THIS IN PRODUCTION!!
@@ -20,7 +17,6 @@ export default function Connections() {
     setProviders(data?.data);
   }, data)
 
-  //if (isLoading) return <div>Loading...</div>;
   if (!providers || isValidating) return "";
   if (error) return <div>{error.message}</div>
 
@@ -91,8 +87,6 @@ export default function Connections() {
                             </td>
                           </tr>
                         ))}
-
-
                       </tbody>
                     </table>
                   </div>
@@ -137,9 +131,6 @@ export default function Connections() {
                       No providers exist for this organization. Please connect a provider before inspecting tokens.
                     </div>
                   </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                    <FinchConnect />
-                  </dd>
                 </div>
               </dl>
             </div>

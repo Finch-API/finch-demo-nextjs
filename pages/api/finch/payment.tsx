@@ -31,6 +31,7 @@ export default async function Payment(req: NextApiRequest, res: NextApiResponse)
                 },
             })
 
+            // Get payroll successful, return back to location
             return res.status(200).json({ data: paymentRes.data })
         } catch (error) {
             console.error(error)

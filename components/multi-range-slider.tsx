@@ -1,23 +1,6 @@
 import { useEffect, useState, useRef, useCallback, FunctionComponent } from 'react'
 import PropTypes from "prop-types"
-import {
-    add,
-    eachDayOfInterval,
-    endOfMonth,
-    format,
-    getDay,
-    isEqual,
-    isSameDay,
-    isSameMonth,
-    isToday,
-    parse,
-    parseISO,
-    startOfToday,
-} from 'date-fns'
-
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
-}
+import { classNames } from "../util/classnames"
 
 type MultiRangeSliderProps = {
     min: number,
@@ -32,12 +15,6 @@ const MultiRangeSlider: React.FC<MultiRangeSliderProps> = ({ min, max, dateRange
     const minValRef = useRef<HTMLInputElement>(null);
     const maxValRef = useRef<HTMLInputElement>(null);
     const range = useRef<HTMLDivElement>(null);
-
-    // const dateRange = eachDayOfInterval({
-    //     start: new Date(2021, 0, 1),
-    //     end: new Date(2022, 0, 1)
-    // })
-    //console.log(dateRange)
 
     const getPercent = useCallback(
         (value: number) => Math.round(((value - min) / (max - min)) * 100),

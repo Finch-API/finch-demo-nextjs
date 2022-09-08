@@ -18,10 +18,7 @@ export default async function Directory(req: NextApiRequest, res: NextApiRespons
 
     if (req.method == 'GET') {
         try {
-            //const code = req.body;
             const token = await redis.get('current_connection');
-
-            //const tokens = await redis.lrange('user_tokens', 0, -1);
 
             const directoryRes = await axios.request<FinchDirectoryRes>({
                 method: 'get',
@@ -32,10 +29,7 @@ export default async function Directory(req: NextApiRequest, res: NextApiRespons
                 },
             });
 
-            //console.log(directoryRes.data)
-            //console.log(tokenData);
-
-            // token successful, return back to location
+            // Get directory successful, return back to location
             return res.status(200).json({ data: directoryRes.data });
         } catch (error) {
             console.error(error);

@@ -16,8 +16,6 @@ export default async function Disconnect(req: NextApiRequest, res: NextApiRespon
 
     if (req.method == 'POST') {
         try {
-            //console.log(req.body);
-
             /*
                 These lines are helpful if you are storing multiple access_tokens for a single organization.
                 Combining payroll_provider_id + company_id to create a unique REDIS key (or org_id + payroll_provider_id + company_id)
@@ -53,14 +51,12 @@ export default async function Disconnect(req: NextApiRequest, res: NextApiRespon
             // Remove the connection from the current list of user connections
             await redis.srem('user_connections', `${payroll_provider_id}:${company_id}`);
 
+            //console.log(resData);
 
-
-
-            console.log(resData);
             // token disconnect successful, return back to location
             return await res.status(200).json({ data: resData, msg: "Success" });
         } catch (error) {
-            console.error(error);
+            //console.error(error);
             return res.status(500).json({ msg: "Error disconnecting access token" })
         }
     }

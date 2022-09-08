@@ -1,7 +1,7 @@
 import { format, parse } from 'date-fns'
 
 function formatCurrency(amount: number = 0, currency_code: string = 'USD') {
-    // Convert from cents
+    // Convert from cents (which is the default format Finch returns currency)
     amount /= 100;
     var formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',

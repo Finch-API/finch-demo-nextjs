@@ -1,7 +1,8 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { MenuIcon, XIcon } from '@heroicons/react/outline'
+import { MenuIcon, XIcon, ArrowRightIcon } from '@heroicons/react/outline'
 import { FinchConnect } from './finch-connect'
+import { classNames } from '../util/classnames'
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
@@ -9,12 +10,13 @@ const navigation = [
   { name: 'Payroll', href: '/payroll', current: false }
 ]
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
 export default function NavBar() {
-  const { openFinchConnect } = FinchConnect()
+
+  const finchOptions = {
+    embedded: true,
+    products: ["company", "directory", "individual", "employment", "payment", "pay_statement", "benefits"],
+  }
+  const { openFinchConnect } = FinchConnect(finchOptions)
 
   return (
     <Disclosure as="nav" className="bg-white">
@@ -65,6 +67,8 @@ export default function NavBar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+                <div className='flex items-center text-sm font-medium text-gray-700'>Create a new connection <ArrowRightIcon className="block h-5 w-5 ml-1 mr-2" /></div>
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">

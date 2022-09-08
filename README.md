@@ -12,11 +12,17 @@ There are a few things you will need setup on your computer before getting start
 
 ## How to use
 
+You need both `FINCH_CLIENT_ID` and `NEXT_PUBLIC_FINCH_CLIENT_ID` so that it can be used on Next.js frontend and Next.js backend.
+
 Uses SWR to fetch api requests. A global fetcher function is used which includes a progress bar when loading. Editable in components/layout.tsx.
 
 Finch Data Types can be found in types/finch.d.ts.
 
 If you want to manually set the `current_connection`, log into Upstash, go to the database CLI, and run `SET current_connection <your-access-token>`.
+
+In production, NEVER return the actual access_token in the /connections.tsx page. This is just an example (NOTE: Might just want to remove this entirely)
+
+Always try to check for null values when displaying data (employee?.email)
 
 ### Using Gitpod
 

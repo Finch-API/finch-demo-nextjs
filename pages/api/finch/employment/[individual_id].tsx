@@ -1,6 +1,5 @@
 import axios from 'axios'
 import Redis from 'ioredis'
-import { useRouter } from 'next/router';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 // TODO: make this into a react hook
@@ -36,10 +35,7 @@ export default async function Employment(req: NextApiRequest, res: NextApiRespon
                 }
             });
 
-            //console.log(directoryRes)
-            //console.log(tokenData);
-
-            // token successful, return back to location
+            // Get individual employment info successful, return back to location
             return res.status(200).json({ data: employmentRes.data.responses[0].body });
         } catch (error) {
             //console.error(error);
