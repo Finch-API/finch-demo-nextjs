@@ -18,7 +18,7 @@ export function FinchConnect(options: FinchConnectOptions) {
         clientId: process.env.NEXT_PUBLIC_FINCH_CLIENT_ID ?? '',
         payrollProvider: options.payroll_provider,
         products: options.products,
-        sandbox: options.sandbox,
+        sandbox: options.sandbox ?? true, // Set sandbox=false if using Dev or Prod credentials
         onSuccess,
         onError,
         onClose

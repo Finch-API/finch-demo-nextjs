@@ -12,6 +12,60 @@ type FinchToken = {
     manual: boolean
 }
 
+type FinchCompany = {
+    id: string;
+    legal_name: string | null;
+    entity: {
+        type: string;
+        subtype: string | null;
+    };
+    ein: string | null;
+    primary_email: string | null;
+    primary_phone_number: string | null;
+    departments: FinchDepartment[];
+    locations: FinchLocation[];
+    accounts: FinchAccount[];
+}
+
+type NotImplementedError = {
+    statusCode: number,
+    status: number,
+    code: number,
+    message: string,
+    name: string
+}
+
+type FinchDepartment = {
+    name: string | null;
+    parent: {
+        name: string | null;
+    }
+}
+type FinchLocation = {
+    line1: string | null;
+    line2: string | null;
+    city: string | null;
+    state: string | null;
+    postal_code: string | null;
+    country: string | null;
+}
+
+type FinchAccount = {
+    institution_name: string | null;
+    account_name: string | null;
+    account_type: string | null;
+    account_number: string | null;
+    routing_number: string | null;
+}
+
+type FinchDirectory = {
+    paging: {
+        count: number
+        offset: number
+    },
+    individuals: FinchEmployee[]
+}
+
 type FinchEmployee = {
     id: string,
     first_name: string,
@@ -24,14 +78,6 @@ type FinchEmployee = {
         name: string
     },
     is_active: boolean
-}
-
-type FinchDirectory = {
-    paging: {
-        count: number
-        offset: number
-    },
-    individuals: FinchEmployee[]
 }
 
 type FinchIndividual = {

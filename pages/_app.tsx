@@ -6,7 +6,21 @@ import useSWR, { SWRConfig } from 'swr'
 
 async function fetchWithProgress(url: string) {
   NProgress.start()
-  const data = await fetch(url).then((res) => res.json());
+  const data = await fetch(url).then(async (res) => {
+    if (!res.ok) {
+      const error = new Error('An error occurred while fetching the data.')
+      error.message = await res.json()
+      NProgress.done()
+      NProgress.remove()
+      throw error
+    }
+    NProgress.done()
+    NProgress.remove()
+    return await res.json()
+  });
+
+
+
   NProgress.done()
   NProgress.remove()
   return data;

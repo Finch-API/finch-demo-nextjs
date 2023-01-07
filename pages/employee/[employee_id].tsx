@@ -13,17 +13,18 @@ export default function Employee() {
   const [employeeEmployment, setEmployeeEmployment] = useState<FinchIndividualEmployment>();
 
   useEffect(() => {
-    console.log(individual?.data);
-    setEmployee(individual?.data);
+    console.log(individual);
+    setEmployee(individual);
   }, [individual])
 
   useEffect(() => {
-    console.log(employment?.data);
-    setEmployeeEmployment(employment?.data);
+    console.log(employment);
+    setEmployeeEmployment(employment);
   }, [employment])
 
-  if (indError) return <div>{indError.message}</div>
-  if (!individual?.data || !employee) return "";
+  if (indError) return <pre className="mx-auto max-w-5xl p-10">{JSON.stringify(indError.message, null, 2)}</pre>
+  if (empError) return <pre className="mx-auto max-w-5xl p-10">{JSON.stringify(empError.message, null, 2)}</pre>
+  if (!individual || !employment || !employee) return ""
 
   return (
     <div className="bg-white py-12">

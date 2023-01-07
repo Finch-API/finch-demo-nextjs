@@ -6,17 +6,21 @@ import { classNames } from '../util/classnames'
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
+  { name: 'Company', href: '/company', current: false },
   { name: 'Directory', href: '/directory', current: false },
   { name: 'Payroll', href: '/payroll', current: false }
 ]
 
-export default function NavBar() {
+const finchOptions = {
+  embedded: true,
+  products: ["company", "directory", "individual", "employment", "payment", "pay_statement", "benefits"],
+  redirect_uri: process.env.NEXT_PUBLIC_FINCH_REDIRECT_URI,
+  sandbox: true
+}
 
-  const finchOptions = {
-    embedded: true,
-    products: ["company", "directory", "individual", "employment", "payment", "pay_statement", "benefits"],
-  }
+export default function NavBar() {
   const { openFinchConnect } = FinchConnect(finchOptions)
+  const redirectFinchUrl = `https://connect.tryfinch.com/authorize?client_id=${process.env.NEXT_PUBLIC_FINCH_CLIENT_ID}&products=${finchOptions.products.toString().replaceAll(',', ' ')}&redirect_uri=${finchOptions.redirect_uri}&sandbox=${finchOptions.sandbox}`
 
   return (
     <Disclosure as="nav" className="bg-white">
@@ -105,10 +109,10 @@ export default function NavBar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="/connections"
+                            href={redirectFinchUrl}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Your Connections
+                            + Redirect Connection
                           </a>
                         )}
                       </Menu.Item>
@@ -128,7 +132,7 @@ export default function NavBar() {
                             onClick={() => openFinchConnect()}
                             className={classNames(active ? 'bg-gray-100 border-t cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 border-t')}
                           >
-                            + New Connection
+                            + Embed Connection
                           </a>
                         )}
                       </Menu.Item>

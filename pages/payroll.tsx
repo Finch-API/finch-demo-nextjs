@@ -21,12 +21,13 @@ export default function Payroll() {
     const [payroll, setPayroll] = useState<FinchPayment[]>()
 
     useEffect(() => {
-        console.log(data?.data)
-        setPayroll(data?.data)
+        //console.log(data)
+        setPayroll(data)
     }, [data])
 
-    if (error) return <div>{error.message}</div>
-    if (!data?.data || !payroll) return ""
+    if (error) return <pre className="mx-auto max-w-5xl p-10">{JSON.stringify(error.message, null, 2)}</pre>
+    if (!data || !payroll) return ""
+    if (data.code == 501) return data.message
 
     return (
         <div className="bg-white py-12">

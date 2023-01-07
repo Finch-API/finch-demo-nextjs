@@ -3,17 +3,17 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { finchApiUrl } from '../../../util/constants';
 import database from '../../../util/database'
 
-export default async function Directory(req: NextApiRequest, res: NextApiResponse) {
-    console.log(req.method + " /api/finch/directory ")
+export default async function Company(req: NextApiRequest, res: NextApiResponse) {
+    console.log(req.method + " /api/finch/company ");
 
     if (req.method == 'GET') {
         const token = await database.getConnection()
-        const directoryRes = await axios.get(`${finchApiUrl}/employer/directory`, {
 
+        const axiosRes = await axios.get(`${finchApiUrl}/employer/company`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Finch-API-Version': '2020-09-17'
-            },
+            }
         }).then(async (response: AxiosResponse) => {
             return res.status(200).json(response?.data);
         }).catch((err: AxiosError) => {
@@ -28,14 +28,7 @@ export default async function Directory(req: NextApiRequest, res: NextApiRespons
                     return res.status(500).json("Error retrieving information")
             }
         });
-        return directoryRes
-
-        // Get directory successful, return back to location
-        //return res.status(200).json(directoryRes.data);
-
-        //            return res.status(500).json({ msg: "Error retrieving company directory" })
-
-
+        return axiosRes
     }
 
     return res.status(405).json("Method not implemented.")
