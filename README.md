@@ -46,7 +46,7 @@ Then, run the development server:
 
 `npm run dev` or `yarn dev`
 
-Open [http://localhost:3000]<http://localhost:3000> with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `components/finch-connect.tsx` or `components/navbar.tsx` or `pages/api/finch`. The pages auto-update as you edit the files.
 
@@ -72,4 +72,4 @@ Then, run the development server:
 
 `npm run dev` or `yarn dev`
 
-Open [http://localhost:3000]<http://localhost:3000> with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
