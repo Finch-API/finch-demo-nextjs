@@ -1,6 +1,8 @@
 # Finch Demo - Next.js
 
-Description
+Integrating Finch with your frontend and backend can be daunting. Managing access tokens, handling null data, knowing which API endpoints to call when, etc. This sample application is meant to help you get started to see how an application can properly implement Finch. Start by running the application locally on your computer and then search through the code for any pages or components that you find interesting.
+
+Since Finch requires having a frontend and a backend (for application security reasons), Next.js is perfect platform since it bundles a React client-side frontend with a server-side backend API running as serverless functions.
 
 ## 🚀 Getting Started
 
@@ -38,15 +40,11 @@ FINCH_CLIENT_SECRET=
 
 ### Start Local Application
 
-Start by installing the dependencies of this project:
+1. Start by installing the dependencies of this project: `npm install` or `yarn install`.
 
-`npm install` or `yarn install`
+1. Then, run the development server: `npm run dev` or `yarn dev`.
 
-Then, run the development server:
-
-`npm run dev` or `yarn dev`
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `components/finch-connect.tsx` or `components/navbar.tsx` or `pages/api/finch`. The pages auto-update as you edit the files.
 
@@ -54,22 +52,20 @@ Finch Data Types can be found in `types/finch.d.ts`.
 
 ### Notes
 
-Uses SWR to fetch api requests. A global fetcher function is used which includes a progress bar when loading. Editable in `components/layout.tsx` and `pages/_app.tsx`.
+- Uses SWR to fetch api requests. A global fetcher function is used which includes a progress bar when loading. Editable in `components/layout.tsx` and `pages/_app.tsx`.
 
-If you want to manually set the `current_connection`, overide the access token located in `./database.json`.
+- If you want to manually set the `current_connection`, overide the access token located in `./database.json`.
 
-Always try to check for null values when displaying data in a user interface `ex: (employee?.email)`
+- Always try to check for null values when displaying data in a user interface `ex: (employee?.email)`
 
 ### Using Gitpod (optional)
 
-The benefits of using Gitpod vs running locally is that this entire application can be built completely in a browser - no additional software dependencies required.
+The benefits of using Gitpod vs running locally is that this entire application can be built completely in a browser - no additional machine software dependencies required.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#/https://github.com/Finch-API/finch-demo-nextjs)
 
-Copy our example configuration file by running `cp .env.local.example .env.local` in the terminal).
+1. Copy our example configuration file by running `cp .env.local.example .env.local` in the terminal).
 
-Then, run the development server:
+1. Then, run the development server: `npm run dev` or `yarn dev`
 
-`npm run dev` or `yarn dev`
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
