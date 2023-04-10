@@ -13,7 +13,7 @@ export default async function Employment(req: NextApiRequest, res: NextApiRespon
     console.log(req.method + ` /api/finch/employment/${individual_id}`);
 
     if (req.method == 'GET') {
-        const token = await database.getConnection()
+        const token = await database.getConnectionToken()
         const axiosRes = await axios.post(`${finchApiUrl}/employer/employment`, {
             requests: [
                 { individual_id: individual_id }

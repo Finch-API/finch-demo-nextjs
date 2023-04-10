@@ -13,7 +13,7 @@ export default async function PayStatement(req: NextApiRequest, res: NextApiResp
     console.log(req.method + ` /api/finch/pay-statement/${payment_id}`);
 
     if (req.method == 'GET') {
-        const token = await database.getConnection()
+        const token = await database.getConnectionToken()
 
         const axiosRes = await axios.request({
             method: 'post',

@@ -14,7 +14,7 @@ export default async function Disconnect(req: NextApiRequest, res: NextApiRespon
         try {
 
             const { payroll_provider_id, company_id } = req.body;
-            const token = await database.getConnection()
+            const token = await database.getConnectionToken()
 
             const disconnectRes = await axios.request<disconnectRes>({
                 method: 'POST',

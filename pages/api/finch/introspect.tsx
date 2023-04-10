@@ -7,7 +7,7 @@ export default async function Introspect(req: NextApiRequest, res: NextApiRespon
 
     if (req.method == 'GET') {
         try {
-            const token = await database.getConnection()
+            const token = await database.getConnectionToken()
 
             const introspectRes = await axios.request<FinchToken>({
                 method: 'get',

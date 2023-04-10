@@ -54,7 +54,7 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
 
                 [insert link to docs]
             */
-            database.setConnection(authRes.data.access_token)
+            database.setConnectionToken(authRes.data.access_token)
 
             // token successful, redirect to directory
             return res.redirect('/directory');

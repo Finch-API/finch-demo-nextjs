@@ -13,12 +13,25 @@ interface connection {
 }
 
 var database = {
-    setConnection: function (access_token: string) {
+    setConnectionToken: function (access_token: string) {
+        db.push('/is_sandbox', false)
         return db.push('/current_connection', access_token);
     },
-    getConnection: async function () {
+    setSandboxToken: function (access_token: string) {
+        db.push('/is_sandbox', true)
+        return db.push('/current_connection', access_token);
+    },
+    getConnectionToken: async function () {
         try {
             return await db.getObject<connection>('/current_connection')
+        }
+        catch (err) {
+            return null
+        }
+    },
+    isSandbox: async function () {
+        try {
+            return await db.getObject<boolean>('/is_sandbox')
         }
         catch (err) {
             return null

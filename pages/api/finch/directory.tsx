@@ -7,7 +7,7 @@ export default async function Directory(req: NextApiRequest, res: NextApiRespons
     console.log(req.method + " /api/finch/directory ")
 
     if (req.method == 'GET') {
-        const token = await database.getConnection()
+        const token = await database.getConnectionToken()
         const directoryRes = await axios.get(`${finchApiUrl}/employer/directory`, {
 
             headers: {

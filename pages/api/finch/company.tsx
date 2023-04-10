@@ -7,7 +7,7 @@ export default async function Company(req: NextApiRequest, res: NextApiResponse)
     console.log(req.method + " /api/finch/company ");
 
     if (req.method == 'GET') {
-        const token = await database.getConnection()
+        const token = await database.getConnectionToken()
 
         const axiosRes = await axios.get(`${finchApiUrl}/employer/company`, {
             headers: {
