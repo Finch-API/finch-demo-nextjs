@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { finchApiUrl } from '../../../util/constants';
+import { finchApiUrl, sandboxApiUrl } from '../../../util/constants';
 import database from '../../../util/database'
 
 export default async function Company(req: NextApiRequest, res: NextApiResponse) {
@@ -8,8 +8,10 @@ export default async function Company(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method == 'GET') {
         const token = await database.getConnectionToken()
+        const apiUrl = (await database.isSandbox()) ? sandboxApiUrl : finchApiUrl
 
-        const axiosRes = await axios.get(`${finchApiUrl}/employer/company`, {
+
+        const axiosRes = await axios.get(`${apiUrl}/employer/company`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Finch-API-Version': '2020-09-17'

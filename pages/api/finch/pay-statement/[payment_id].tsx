@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { finchApiUrl } from '../../../../util/constants'
+import { finchApiUrl, sandboxApiUrl } from '../../../../util/constants'
 import database from '../../../../util/database'
 
 /****************
@@ -14,10 +14,11 @@ export default async function PayStatement(req: NextApiRequest, res: NextApiResp
 
     if (req.method == 'GET') {
         const token = await database.getConnectionToken()
+        const apiUrl = (await database.isSandbox()) ? sandboxApiUrl : finchApiUrl
 
         const axiosRes = await axios.request({
             method: 'post',
-            url: `${finchApiUrl}/employer/pay-statement`,
+            url: `${apiUrl}/employer/pay-statement`,
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Finch-API-Version': '2020-09-17'
@@ -44,7 +45,7 @@ export default async function PayStatement(req: NextApiRequest, res: NextApiResp
         return axiosRes
     }
 
-    return res.status(405).json({ msg: "Method not implemented." })
+    return res.status(405).json("Method not implemented.")
 
 
 };

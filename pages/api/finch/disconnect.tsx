@@ -1,7 +1,8 @@
 import axios from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { disconnect } from 'process'
 import database from '../../../util/database'
+import { finchApiUrl, sandboxApiUrl } from '../../../util/constants';
+
 
 type disconnectRes = {
     status: string
@@ -15,10 +16,12 @@ export default async function Disconnect(req: NextApiRequest, res: NextApiRespon
 
             const { payroll_provider_id, company_id } = req.body;
             const token = await database.getConnectionToken()
+            const apiUrl = (await database.isSandbox()) ? sandboxApiUrl : finchApiUrl
+
 
             const disconnectRes = await axios.request<disconnectRes>({
                 method: 'POST',
-                url: 'https://api.tryfinch.com/disconnect',
+                url: `${apiUrl}/disconnect`,
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Finch-API-Version': '2020-09-17'
@@ -29,11 +32,11 @@ export default async function Disconnect(req: NextApiRequest, res: NextApiRespon
             return res.status(200).json(disconnectRes.data);
         } catch (error) {
             //console.error(error);
-            return res.status(500).json({ msg: "Error disconnecting access token" })
+            return res.status(500).json("Error disconnecting access token")
         }
     }
 
-    return res.status(405).json({ msg: "Method not implemented." })
+    return res.status(405).json("Method not implemented.")
 
 
 };

@@ -29,17 +29,15 @@ const finchOptions = {
 
 export default function NavBar() {
   const { embeddedFinchConnect, redirectFinchConnect } = FinchConnect()
-  //const sandboxFinchConnect = FinchConnect({ sandbox: true })
-
   const createNewSandbox = async (payroll_provider: string) => {
     const sandbox = await fetch(baseUrl + "/api/finch/sandbox/" + payroll_provider)
-    if (sandbox)
-      return {
-        redirect: {
-          destination: '/connection',
-          permanent: false
-        }
-      }
+    // if (sandbox)
+    //   return {
+    //     redirect: {
+    //       destination: '/connection',
+    //       permanent: false
+    //     }
+    //   }
   }
 
 
@@ -116,7 +114,7 @@ export default function NavBar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-52 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
                           <a
