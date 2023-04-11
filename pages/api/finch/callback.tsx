@@ -38,6 +38,15 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
                 data: body
             })
 
+            const introRes = await axios({
+                method: 'get',
+                url: `${process.env.FINCH_API_URL}/introspect`,
+                headers: {
+                    Authorization: `Bearer ${authRes.data.access_token}`,
+                    'Finch-API-Version': '2020-09-17'
+                },
+            });
+
             /*
                 This is not secure!
                 This is only for demo purposes.
@@ -45,17 +54,17 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
 
                 [insert link to docs]
             */
-            database.setConnection(authRes.data.access_token)
+            database.setConnectionToken(authRes.data.access_token)
 
             // token successful, redirect to directory
             return res.redirect('/directory');
         } catch (error) {
             console.error(error);
-            return res.status(500).json({ msg: "Error retrieving access token." })
+            return res.status(500).json("Error retrieving access token.")
         }
     }
 
-    return res.status(405).json({ msg: "Method not implemented." })
+    return res.status(405).json("Method not implemented.")
 
 
 };

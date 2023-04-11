@@ -3,6 +3,15 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon, ArrowRightIcon } from '@heroicons/react/outline'
 import { FinchConnect } from './finch-connect'
 import { classNames } from '../util/classnames'
+import { baseUrl } from '../util/constants'
+import Image from 'next/image'
+
+
+import gustoLogo from '../public/img/providers/gusto.png'
+import bamboohrLogo from '../public/img/providers/bamboohr.png'
+import paychexLogo from '../public/img/providers/paychex.png'
+import justworksLogo from '../public/img/providers/justworks.png'
+import workdayLogo from '../public/img/providers/workday.png'
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
@@ -19,8 +28,12 @@ const finchOptions = {
 }
 
 export default function NavBar() {
-  const { openFinchConnect } = FinchConnect(finchOptions)
-  const redirectFinchUrl = `https://connect.tryfinch.com/authorize?client_id=${process.env.NEXT_PUBLIC_FINCH_CLIENT_ID}&products=${finchOptions.products.toString().replaceAll(',', ' ')}&redirect_uri=${finchOptions.redirect_uri}&sandbox=${finchOptions.sandbox}`
+  const { embeddedFinchConnect, redirectFinchConnect } = FinchConnect()
+  const createNewSandbox = async (payroll_provider: string) => {
+    const sandbox = await fetch(baseUrl + "/api/finch/sandbox/" + payroll_provider)
+    if (sandbox) window.location.assign('/connection');
+  }
+
 
   return (
     <Disclosure as="nav" className="bg-white">
@@ -95,44 +108,100 @@ export default function NavBar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {/* <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="/profile"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item> */}
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-52 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href={redirectFinchUrl}
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            href="/connection"
+                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            + Redirect Connection
+                            Your Connection
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href={redirectFinchConnect}
+                            className={classNames(active ? 'bg-gray-100 border-t cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 border-t')}
+                          >
+                            + Redirect Flow
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            onClick={() => embeddedFinchConnect()}
+                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          >
+                            + Embed Flow
                           </a>
                         )}
                       </Menu.Item>
                       {/* <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            onClick={() => FinchConnect({ sandbox: true }).embeddedFinchConnect()}
+                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Settings
+                            + Sandbox Flow
                           </a>
                         )}
                       </Menu.Item> */}
+
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            onClick={() => openFinchConnect()}
-                            className={classNames(active ? 'bg-gray-100 border-t cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 border-t')}
+                            onClick={() => createNewSandbox("gusto")}
+                            className={classNames(active ? 'bg-gray-100 border-t cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 border-t flex items-center')}
                           >
-                            + Embed Connection
+                            <Image src={gustoLogo} width={25} height={25} />
+                            <div className="pl-2">Gusto Sandbox</div>
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            onClick={() => createNewSandbox("bamboo_hr")}
+                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 flex items-center')}
+                          >
+                            <Image src={bamboohrLogo} width={25} height={25} />
+                            <div className="pl-2">BambooHR Sandbox</div>
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            onClick={() => createNewSandbox("paychex_flex")}
+                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 flex items-center')}
+                          >
+                            <Image src={paychexLogo} width={25} height={25} />
+                            <div className="pl-2">Paychex Sandbox</div>
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            onClick={() => createNewSandbox("justworks")}
+                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 flex items-center')}
+                          >
+                            <Image src={justworksLogo} width={25} height={25} />
+                            <div className="pl-2">Justworks Sandbox</div>
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            onClick={() => createNewSandbox("workday")}
+                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 flex items-center')}
+                          >
+                            <Image src={workdayLogo} width={25} height={25} />
+                            <div className="pl-2">Workday Sandbox</div>
                           </a>
                         )}
                       </Menu.Item>
