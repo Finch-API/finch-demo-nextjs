@@ -31,13 +31,7 @@ export default function NavBar() {
   const { embeddedFinchConnect, redirectFinchConnect } = FinchConnect()
   const createNewSandbox = async (payroll_provider: string) => {
     const sandbox = await fetch(baseUrl + "/api/finch/sandbox/" + payroll_provider)
-    // if (sandbox)
-    //   return {
-    //     redirect: {
-    //       destination: '/connection',
-    //       permanent: false
-    //     }
-    //   }
+    if (sandbox) window.location.assign('/connection');
   }
 
 
@@ -118,7 +112,7 @@ export default function NavBar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="/"
+                            href="/connection"
                             className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Your Connection

@@ -29,6 +29,14 @@ var database = {
             return null
         }
     },
+    deleteConnectionToken: async function () {
+        try {
+            return await db.delete('/current_connection')
+        }
+        catch (err) {
+            return null
+        }
+    },
     isSandbox: async function () {
         try {
             return await db.getObject<boolean>('/is_sandbox')
