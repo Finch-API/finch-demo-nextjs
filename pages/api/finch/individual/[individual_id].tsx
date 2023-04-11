@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { finchApiUrl } from '../../../../util/constants';
+import { finchApiUrl, sandboxApiUrl } from '../../../../util/constants';
 import database from '../../../../util/database'
 
 /****************
@@ -13,8 +13,10 @@ export default async function Individual(req: NextApiRequest, res: NextApiRespon
     console.log(req.method + ` /api/finch/individual/${individual_id}`);
 
     if (req.method == 'GET') {
-        const token = await database.getConnection()
-        const axiosRes = await axios.post(`${finchApiUrl}/employer/individual`, {
+        const token = await database.getConnectionToken()
+        const apiUrl = (await database.isSandbox()) ? sandboxApiUrl : finchApiUrl
+
+        const axiosRes = await axios.post(`${apiUrl}/employer/individual`, {
             requests: [
                 { individual_id: individual_id }
             ]
@@ -40,7 +42,7 @@ export default async function Individual(req: NextApiRequest, res: NextApiRespon
         return axiosRes
     }
 
-    return res.status(405).json({ msg: "Method not implemented." })
+    return res.status(405).json("Method not implemented.")
 
 
 };

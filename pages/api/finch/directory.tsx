@@ -1,15 +1,16 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { finchApiUrl } from '../../../util/constants';
+import { finchApiUrl, sandboxApiUrl } from '../../../util/constants';
 import database from '../../../util/database'
 
 export default async function Directory(req: NextApiRequest, res: NextApiResponse) {
     console.log(req.method + " /api/finch/directory ")
 
     if (req.method == 'GET') {
-        const token = await database.getConnection()
-        const directoryRes = await axios.get(`${finchApiUrl}/employer/directory`, {
+        const token = await database.getConnectionToken()
+        const apiUrl = (await database.isSandbox()) ? sandboxApiUrl : finchApiUrl
 
+        const directoryRes = await axios.get(`${apiUrl}/employer/directory`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Finch-API-Version': '2020-09-17'
