@@ -2,12 +2,7 @@ import useSWR from 'swr'
 import { useEffect, useState } from 'react'
 import { ExclamationCircleIcon } from '@heroicons/react/outline'
 
-/*
-  PLEASE DO NOT EVER DO THIS IN PRODUCTION!!
-  Access Token should only be known by your backend; never pass the token to the frontend.
-  You could still have an API endpoint that returned the token details (payroll_provider_id, company_id, etc),
-  but it should never return the actual access_token.
-*/
+
 export default function Connection() {
   const { data, error, isValidating } = useSWR('/api/finch/introspect', { shouldRetryOnError: false, errorRetryInterval: 0, })
   const [token, setToken] = useState<FinchToken>();
@@ -39,7 +34,7 @@ export default function Connection() {
               Finch
             </h2>
             <p className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-              Your Connections
+              Your Connection
             </p>
             <p className="mt-4 mb-16 max-w-2xl text-xl text-gray-500 lg:mx-auto">
               Each connection is represented by an access token. Each token contains the provider name, the username used for login, an array of authorized Finch products (i.e. permissions), and if the connection is automated or manual.
@@ -96,7 +91,7 @@ export default function Connection() {
               Finch
             </h2>
             <p className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-              Your Connections
+              Your Connection
             </p>
             <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
               Each connection is represented by an access token. Each token contains the provider name, the username used for login, an array of authorized Finch products (i.e. permissions), and if the connection is automated or manual.
