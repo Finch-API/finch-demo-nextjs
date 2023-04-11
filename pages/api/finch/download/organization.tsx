@@ -10,6 +10,20 @@ type FinchDirectoryRes = {
     },
     individuals: FinchEmployee[]
 }
+type FinchIndividualRes = {
+    responses: {
+        individual_id: string,
+        code: number,
+        body: FinchIndividual
+    }[]
+}
+type FinchEmploymentRes = {
+    responses: {
+        individual_id: string,
+        code: number,
+        body: FinchIndividualEmployment
+    }[]
+}
 
 export default async function DownloadOrganization(req: NextApiRequest, res: NextApiResponse) {
     console.log(req.method + " /api/finch/download/organization ");
@@ -37,9 +51,33 @@ export default async function DownloadOrganization(req: NextApiRequest, res: Nex
                 url: `${baseUrl}/api/finch/directory`,
             });
 
+            const individualIds: { individual_id: string }[] = []
+            directoryRes.data.individuals.forEach(ind => {
+                individualIds.push({ "individual_id": ind.id })
+            })
+
+            // Get all Individual data
+            const individualRes = await axios.post<FinchIndividualRes>(`${apiUrl}/employer/individual`, {
+                requests: individualIds
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Finch-API-Version': '2020-09-17'
+                }
+            })
+
+            // Get all Employee data
+            const employeeRes = await axios.post<FinchEmploymentRes>(`${apiUrl}/employer/employment`, {
+                requests: individualIds
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Finch-API-Version': '2020-09-17'
+                }
+            })
 
             // Convert the organization data to CSV file
-            const csv = json2csv_organization(directoryRes.data.individuals)
+            const csv = json2csv_organization(directoryRes.data.individuals, individualRes.data, employeeRes.data)
 
             res.setHeader('Content-Type', 'application/csv');
             res.setHeader('Content-Disposition', `attachment; filename=finch-${companyId}-${payrollProviderId}-organization.csv`);
@@ -53,72 +91,104 @@ export default async function DownloadOrganization(req: NextApiRequest, res: Nex
     return res.status(405).json("Method not implemented.")
 };
 
-function json2csv_organization(DirectoryJson: FinchEmployee[]) {
+function json2csv_organization(DirectoryJson: FinchEmployee[], IndividualJson: FinchIndividualRes, EmployeeJson: FinchEmploymentRes) {
     const headers = [
         "Individual ID",
-        "Name",
-        "Payment Date",
-        "Payment Type",
-        "Total Hours",
-        "Gross Pay",
-        "Net Pay",
-        "Earnings_salary",
-        "Earnings_wage",
-        "Earnings_1099",
-        "Earnings_overtime",
-        "Earnings_reimbursement",
-        "Earnings_severance",
-        "Earnings_double_overtime",
-        "Earnings_pto",
-        "Earnings_sick",
-        "Earnings_bonus",
-        "Earnings_commission",
-        "Earnings_tips",
-        "Earnings_other",
-        "Earnings_null",
-        "Total Earnings",
-        "Total Taxes",
-        "Total Deductions",
-        "Total Contributions"
-
+        "Is Active?",
+        "First Name",
+        "Middle Name",
+        "Last Name",
+        "Preferred Name",
+        "Date Of Birth",
+        "SSN",
+        "Emails",
+        "Phone Numbers",
+        "Gender",
+        "Ethnicity",
+        "Residence Line1",
+        "Residence Line2",
+        "Residence City",
+        "Residence State",
+        "Residence Postal Code",
+        "Residence Country",
+        "Title",
+        "Manager ID",
+        "Employment Type",
+        "Employment Subtype",
+        "Department Name",
+        "Start Date",
+        "End Date",
+        "Class Code",
+        "Work Location Line1",
+        "Work Location Line2",
+        "Work Location City",
+        "Work Location State",
+        "Work Location Postal Code",
+        "Work Location Country",
+        "Income Amount",
+        "Income Currency",
+        "Income Unit",
+        "Income Effective Date",
+        "Income History",
+        "Custom Fields",
     ]
+
 
     let rows = []
     rows.push(headers)
 
-    PayDataJson.forEach(payment => {
-        const individual_paychecks = payment.pay_statements
-        individual_paychecks.forEach(paycheck => {
-            const employee = DirectoryJson.find(employee => employee.id === paycheck.individual_id)
+    DirectoryJson.forEach(dir => {
+        const ind = IndividualJson.responses.find(ind => ind.individual_id === dir.id)?.body
+        const emp = EmployeeJson.responses.find(emp => emp.individual_id === dir.id)?.body
 
-            rows.push([
-                employee?.id,
-                employee?.first_name + ' ' + employee?.last_name,
-                payment.pay_date,
-                paycheck.type,
-                paycheck.total_hours,
-                paycheck.gross_pay.amount,
-                paycheck.net_pay.amount,
-                sumAmountsInType(paycheck.earnings, 'salary'),
-                sumAmountsInType(paycheck.earnings, 'wage'),
-                sumAmountsInType(paycheck.earnings, '1099'),
-                sumAmountsInType(paycheck.earnings, 'overtime'),
-                sumAmountsInType(paycheck.earnings, 'reimbursement'),
-                sumAmountsInType(paycheck.earnings, 'severance'),
-                sumAmountsInType(paycheck.earnings, 'double_overtime'),
-                sumAmountsInType(paycheck.earnings, 'pto'),
-                sumAmountsInType(paycheck.earnings, 'sick'),
-                sumAmountsInType(paycheck.earnings, 'bonus'),
-                sumAmountsInType(paycheck.earnings, 'commission'),
-                sumAmountsInType(paycheck.earnings, 'tips'),
-                sumAmountsInType(paycheck.earnings, 'other'),
-                sumAmountsInType(paycheck.earnings, null),
-                sumTotal(paycheck.earnings),
-                sumTotal(paycheck.taxes),
-                sumTotal(paycheck.employee_deductions),
-                sumTotal(paycheck.employer_contributions),
-            ])
-        })
+        rows.push([
+            dir.id,
+            emp?.is_active,
+            ind?.first_name,
+            ind?.middle_name,
+            ind?.last_name,
+            ind?.preferred_name,
+            ind?.dob,
+            ind?.ssn,
+            ind?.emails.map(email => {
+                return `${email?.data} (${email?.type})`
+            }).join('; '),
+            ind?.phone_numbers.map(phone => {
+                return `${phone?.data} (${phone?.type})`
+            }).join('; '),
+            ind?.gender,
+            ind?.ethnicity,
+            ind?.residence?.line1,
+            ind?.residence?.line2,
+            ind?.residence?.city,
+            ind?.residence?.state,
+            ind?.residence?.postal_code,
+            ind?.residence?.country,
+            emp?.title,
+            emp?.manager?.id,
+            emp?.employment?.type,
+            emp?.employment?.subtype,
+            emp?.department?.name,
+            emp?.start_date,
+            emp?.end_date,
+            emp?.class_code,
+            emp?.location?.line1,
+            emp?.location?.line2,
+            emp?.location?.city,
+            emp?.location?.state,
+            emp?.location?.postal_code,
+            emp?.location?.country,
+            emp?.income?.amount,
+            emp?.income?.currency,
+            emp?.income?.unit,
+            emp?.income?.effective_date,
+            emp?.income_history.map(income => {
+                return `${income?.amount} ${income?.currency} ${income.unit} ${income.effective_date}`
+            }).join('; '),
+            emp?.custom_fields.map(field => {
+                return `name: ${field.name} value: ${field.value}`
+            }).join('; ')
+        ])
     })
 
     let csvString = rows.map(row => row.join(',')).join('\n')
@@ -127,21 +197,4 @@ function json2csv_organization(DirectoryJson: FinchEmployee[]) {
 
 
 
-}
-
-function sumAmountsInType(array: any[], type: string | null) {
-    var total = 0
-    array.forEach(element => {
-        if (element.type === type)
-            total += element.amount
-    })
-    return total
-}
-
-function sumTotal(array: any[]) {
-    var total = 0
-    array.forEach(element => {
-        total += element.amount
-    })
-    return total
 }

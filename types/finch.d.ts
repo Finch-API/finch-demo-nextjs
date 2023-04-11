@@ -95,7 +95,9 @@ type FinchIndividual = {
         type: 'work' | 'personal' | null,
     }[],
     gender: 'female' | 'male' | 'other' | 'decline_to_specify' | null,
+    ethnicity: 'asian' | 'white' | 'black_or_african_american' | 'native_hawaiian_or_pacific_islander' | 'american_indian_or_alaska_native' | 'hispanic_or_latino' | 'two_or_more_races' | 'decline_to_specify' | null,
     dob: string,
+    ssn: string,
     residence: {
         line1: string,
         line2: string,
@@ -149,6 +151,10 @@ type FinchIndividualEmployment = {
         amount: number,
         currency: string,
         effective_date: string
+    }[],
+    custom_fields: {
+        name: string | null,
+        value: string | number | null
     }[]
 }
 
