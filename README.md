@@ -24,12 +24,17 @@ BASE_URL=http://localhost:3000
 
 # The base url of Finch APIs
 FINCH_API_URL=https://api.tryfinch.com
+FINCH_SANDBOX_URL=https://sandbox.tryfinch.com/api
 
-# Your Finch application Client ID for client-side access
-NEXT_PUBLIC_FINCH_CLIENT_ID=
+# DO NOT CHANGE - Finch Client Id that allows you to enter any provider credentials during demo
+NEXT_PUBLIC_FINCH_DEMO_CLIENT_ID=5dc0e9dc-c411-4e4e-a749-0e35aac43080
+FINCH_DEMO_CLIENT_ID=5dc0e9dc-c411-4e4e-a749-0e35aac43080
 
 # Your Finch Redirect Uri for client-side access
 NEXT_PUBLIC_FINCH_REDIRECT_URI=http://localhost:3000/api/finch/callback
+
+# Your Finch application Client ID for client-side access
+NEXT_PUBLIC_FINCH_CLIENT_ID=
 
 # Your Finch application Client ID for server-side access
 FINCH_CLIENT_ID=
@@ -46,15 +51,21 @@ FINCH_CLIENT_SECRET=
 
 1. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `components/finch-connect.tsx` or `components/navbar.tsx` or `pages/api/finch`. The pages auto-update as you edit the files.
+1. Create a new connection by either selecting `Redirect Flow` or `Embed Flow`. Or if you want to skip [Finch Connect](https://developer.tryfinch.com/docs/reference/4a41b0589896f-overview), you can create a `Gusto Sandbox` to start viewing data.
+
+You can start editing the app by modifying `components/finch-connect.tsx` or `components/navbar.tsx` or `pages/api/finch`. The pages auto-update as you edit the files.
+
+You can download the Finch API data as a CSV file by selecting the download icon next to each section. View the code to convert JSON to CSV in `/pages/api/finch/download`.
 
 Finch Data Types can be found in `types/finch.d.ts`.
 
 ### Notes
 
-- Uses SWR to fetch api requests. A global fetcher function is used which includes a progress bar when loading. Editable in `components/layout.tsx` and `pages/_app.tsx`.
+- This app uses `node-json-db` package as a "stand-in" database to make it easy to store access tokens. Replace `/util/database.ts` with your preference of database.
 
-- If you want to manually set the `current_connection`, overide the access token located in `./database.json`.
+- This app uses `swr` package to fetch API requests. A global fetcher function is used which includes a progress bar when loading. Editable in `components/layout.tsx` and `pages/_app.tsx`.
+
+- If you want to manually set the `current_connection`, overide the access token located in `./database.json` (after running the application locally).
 
 - Always try to check for null values when displaying data in a user interface `ex: (employee?.email)`
 
