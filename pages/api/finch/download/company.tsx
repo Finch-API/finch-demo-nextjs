@@ -38,7 +38,7 @@ export default async function DownloadCompany(req: NextApiRequest, res: NextApiR
             return res.status(200).send(csv);
         } catch (error) {
             console.error(error);
-            return res.status(500).json("Error downloading Finch company data")
+            return res.status(500).redirect("/connection").json("Error downloading Finch company data")
         }
     }
 
@@ -98,7 +98,7 @@ function json2csv_company(CompanyJson: FinchCompany) {
     rows.push([])
     rows.push(['Locations'])
     rows.push(locationsHeaders)
-    CompanyJson.locations.forEach(loc => {
+    CompanyJson.locations?.forEach(loc => {
         rows.push([
             loc?.line1,
             loc?.line2,
@@ -111,7 +111,7 @@ function json2csv_company(CompanyJson: FinchCompany) {
     rows.push([])
     rows.push(['Accounts'])
     rows.push(accountsHeaders)
-    CompanyJson.accounts.forEach(acc => {
+    CompanyJson.accounts?.forEach(acc => {
         rows.push([
             acc?.institution_name,
             acc?.account_name,

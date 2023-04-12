@@ -101,11 +101,11 @@ export default function Connection() {
           <div className="overflow-hidden bg-white shadow sm:rounded-lg mt-10">
             <div className="border-t border-gray-200">
               <dl>
-                <div className='bg-white px-4 py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6'>
+                <div className='bg-white px-4 py-5 sm:grid sm:grid-cols-1 sm:gap-4 sm:px-6'>
                   <dt className="text-md font-medium text-gray-500">
                     <div className='flex items-start space-x-4 items-center'>
                       <ExclamationCircleIcon className="h-8 w-8 text-rose-700 mr-2" />
-                      No connection exists. Please create a new connection.
+                      No connection exists. Please create a new connection before viewing connection details.
                     </div>
                   </dt>
                 </div>
