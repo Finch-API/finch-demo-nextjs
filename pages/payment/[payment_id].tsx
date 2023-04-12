@@ -165,7 +165,7 @@ export default function Payment() {
                                           <label htmlFor="earnings" className="block text-sm font-medium text-gray-500">
                                             Earnings
                                           </label>
-                                          {detailsPayment?.earnings.map(earning => (
+                                          {detailsPayment?.earnings?.map(earning => (
                                             <div className="mt-1">{formatCurrency(earning?.amount)} {earning?.currency.toLocaleUpperCase()} <span className="mt-1 text-sm text-gray-500"> - {earning?.name} ({earning?.type})</span></div>
                                           ))}
                                         </div>
@@ -174,7 +174,7 @@ export default function Payment() {
                                           <label htmlFor="taxes" className="block text-sm font-medium text-gray-500">
                                             Taxes
                                           </label>
-                                          {detailsPayment?.taxes.map(tax => (
+                                          {detailsPayment?.taxes?.map(tax => (
                                             <div className="mt-1">{formatCurrency(tax?.amount)} {tax?.currency.toLocaleUpperCase()} <span className="mt-1 text-sm text-gray-500"> - {tax?.name} ({tax?.type})</span></div>
                                           ))}
                                         </div>
@@ -184,7 +184,7 @@ export default function Payment() {
                                           <label htmlFor="employee_deductions" className="block text-sm font-medium text-gray-500">
                                             Employee Deductions
                                           </label>
-                                          {detailsPayment?.employee_deductions.map(deduction => (
+                                          {detailsPayment?.employee_deductions?.map(deduction => (
                                             <div className="mt-1">{formatCurrency(deduction?.amount)} {deduction?.currency.toLocaleUpperCase()} <span className="mt-1 text-sm text-gray-500"> - {deduction?.name} ({deduction?.pre_tax ? JSON.stringify(deduction?.pre_tax) : ''})</span></div>
                                           ))}
                                         </div>
@@ -194,7 +194,7 @@ export default function Payment() {
                                           <label htmlFor="employee_contributions" className="block text-sm font-medium text-gray-500">
                                             Employee Contributions
                                           </label>
-                                          {detailsPayment?.employer_contributions.map(contribution => (
+                                          {detailsPayment?.employer_contributions?.map(contribution => (
                                             <div className="mt-1">{formatCurrency(contribution?.amount)} {contribution?.currency.toLocaleUpperCase()} <span className="mt-1 text-sm text-gray-500"> - {contribution?.name} ({contribution?.type})</span></div>
                                           ))}
                                         </div>
