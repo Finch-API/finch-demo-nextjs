@@ -12,7 +12,7 @@ const Home: NextPage = () => {
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
         <h1 className="text-6xl font-bold">
           Welcome to{' '}
-          <a className="text-green-600" href="https://tryfinch.com">
+          <a className="text-indigo-600" href="https://tryfinch.com">
             Parrot!
           </a>
         </h1>

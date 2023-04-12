@@ -1,7 +1,7 @@
 /*
     This is not secure!
     This is only for demo purposes.
-    Storing access tokens in a secure database and retrieved from a backend server ideal. 
+    Storing access tokens in a secure database and retrieved from a backend server is ideal. 
 
     [insert link to docs]
 */

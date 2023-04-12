@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { MenuIcon, XIcon, ArrowRightIcon, DocumentDownloadIcon, DownloadIcon } from '@heroicons/react/outline'
+import { MenuIcon, XIcon, ArrowRightIcon, DownloadIcon } from '@heroicons/react/outline'
 import { FinchConnect } from './finch-connect'
 import { classNames } from '../util/classnames'
 import { baseUrl } from '../util/constants'
@@ -73,7 +73,7 @@ export default function NavBar() {
                           key={item.name}
                           href={item.href}
                           className={classNames(
-                            item.current ? 'text-blue-700' : 'text-gray-700 hover:text-blue-700',
+                            item.current ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600',
                             'pl-3 py-2 rounded-md text-sm font-medium'
                           )}
                           aria-current={item.current ? 'page' : undefined}
@@ -81,7 +81,7 @@ export default function NavBar() {
                           {item.name}
                         </a>
                         {item.download && <a href={item.downloadLink}>
-                          <DownloadIcon className="block h-4 w-4 ml-1 mr-2 text-gray-700 hover:text-blue-700" />
+                          <DownloadIcon className="block h-4 w-4 ml-1 mr-2 text-gray-700 hover:text-indigo-600" />
                         </a>}
                       </div>
 
