@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { MenuIcon, XIcon, ArrowRightIcon } from '@heroicons/react/outline'
+import { MenuIcon, XIcon, ArrowRightIcon, DocumentDownloadIcon, DownloadIcon } from '@heroicons/react/outline'
 import { FinchConnect } from './finch-connect'
 import { classNames } from '../util/classnames'
 import { baseUrl } from '../util/constants'
@@ -14,10 +14,10 @@ import justworksLogo from '../public/img/providers/justworks.png'
 import workdayLogo from '../public/img/providers/workday.png'
 
 const navigation = [
-  { name: 'Home', href: '/', current: false },
-  { name: 'Company', href: '/company', current: false },
-  { name: 'Directory', href: '/directory', current: false },
-  { name: 'Payroll', href: '/payroll', current: false }
+  { name: 'Home', href: '/', download: false, current: false },
+  { name: 'Company', href: '/company', download: true, downloadLink: "/api/finch/download/company", current: false },
+  { name: 'Directory', href: '/directory', download: true, downloadLink: "/api/finch/download/organization", current: false },
+  { name: 'Payroll', href: '/payroll', download: true, downloadLink: "/api/finch/download/payroll", current: false }
 ]
 
 const finchOptions = {
@@ -68,17 +68,23 @@ export default function NavBar() {
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current ? 'text-blue-700' : 'text-gray-700 hover:text-blue-700',
-                          'px-3 py-2 rounded-md text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
+                      <div className='flex items-center'>
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className={classNames(
+                            item.current ? 'text-blue-700' : 'text-gray-700 hover:text-blue-700',
+                            'pl-3 py-2 rounded-md text-sm font-medium'
+                          )}
+                          aria-current={item.current ? 'page' : undefined}
+                        >
+                          {item.name}
+                        </a>
+                        {item.download && <a href={item.downloadLink}>
+                          <DownloadIcon className="block h-4 w-4 ml-1 mr-2 text-gray-700 hover:text-blue-700" />
+                        </a>}
+                      </div>
+
                     ))}
                   </div>
                 </div>

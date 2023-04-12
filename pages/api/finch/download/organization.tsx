@@ -84,7 +84,7 @@ export default async function DownloadOrganization(req: NextApiRequest, res: Nex
             return res.status(200).send(csv);
         } catch (error) {
             console.error(error);
-            return res.status(500).json("Error downloading Finch organizational data")
+            return res.status(500).redirect("/connection").json("Error downloading Finch organizational data")
         }
     }
 
@@ -150,10 +150,10 @@ function json2csv_organization(DirectoryJson: FinchEmployee[], IndividualJson: F
             ind?.preferred_name,
             ind?.dob,
             ind?.ssn,
-            ind?.emails.map(email => {
+            ind?.emails?.map(email => {
                 return `${email?.data} (${email?.type})`
             }).join('; '),
-            ind?.phone_numbers.map(phone => {
+            ind?.phone_numbers?.map(phone => {
                 return `${phone?.data} (${phone?.type})`
             }).join('; '),
             ind?.gender,
@@ -182,10 +182,10 @@ function json2csv_organization(DirectoryJson: FinchEmployee[], IndividualJson: F
             emp?.income?.currency,
             emp?.income?.unit,
             emp?.income?.effective_date,
-            emp?.income_history.map(income => {
+            emp?.income_history?.map(income => {
                 return `${income?.amount} ${income?.currency} ${income.unit} ${income.effective_date}`
             }).join('; '),
-            emp?.custom_fields.map(field => {
+            emp?.custom_fields?.map(field => {
                 return `name: ${field.name} value: ${field.value}`
             }).join('; ')
         ])

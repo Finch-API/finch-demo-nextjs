@@ -108,7 +108,7 @@ export default async function DownloadPayroll(req: NextApiRequest, res: NextApiR
             return res.status(200).send(csv);
         } catch (error) {
             console.error(error);
-            return res.status(500).json("Error downloading Finch payroll data")
+            return res.status(500).redirect("/connection").json("Error downloading Finch payroll data")
         }
     }
 
@@ -282,6 +282,10 @@ function json2csv_payroll(DirectoryJson: FinchEmployee[], PayDataJson: PayData) 
 
 function sumAmountsInType(array: any[], type: string | null) {
     var total = 0
+
+    if (!array)
+        return total
+
     array.forEach(element => {
         if (element?.type === type)
             total += element?.amount
@@ -291,6 +295,9 @@ function sumAmountsInType(array: any[], type: string | null) {
 
 function sumTotal(array: any[]) {
     var total = 0
+    if (!array)
+        return total
+
     array.forEach(element => {
         total += element?.amount
     })
