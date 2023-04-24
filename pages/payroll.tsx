@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react'
 import MultiRangeSlider from '../components/multi-range-slider';
 import { eachDayOfInterval, subYears, addMonths, startOfToday, } from 'date-fns'
 import { formatDate, formatCurrency, parseDate } from '../util/format';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { EyeIcon, CodeIcon } from '@heroicons/react/outline'
+import { CodeBlock, nord } from "react-code-blocks";
 
 // Setting a static date range to receive the last 3 years of payroll. A month needs to be added (m + 1) since the month is zero-indexed
 const dateRange = eachDayOfInterval({
@@ -19,6 +23,15 @@ export default function Payroll() {
     const [endDateNum, setEndDateNum] = useState<number>(endDateInit)
     const { data, error } = useSWR(`/api/finch/payment?start_date=${startDate}&end_date=${endDate}`, { revalidateOnFocus: false })
     const [payroll, setPayroll] = useState<FinchPayment[]>()
+    const [toggle, setToggle] = useState(true)
+    const [alignment, setAlignment] = useState('web');
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    setAlignment(newAlignment);
+  };
 
     useEffect(() => {
         //console.log(data)
@@ -56,7 +69,27 @@ export default function Payroll() {
                     dateRange={dateRange}
                     onChange={({ min, max }: { min: number, max: number }) => { console.log(`min = ${min}, max = ${max}`); setStartDateNum(min); setEndDateNum(max) }}
                 />
+                <br />
 
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'right',
+                    justifyContent: 'right',
+                }}>
+                <ToggleButtonGroup
+                    color="primary"
+                    value={alignment}
+                    exclusive
+                    onChange={handleChange}
+                    aria-label="Platform"
+                    size="small"
+                >
+                    <ToggleButton value="preview" selected={toggle} onClick={() => setToggle(true)}><EyeIcon className="block h-4 w-4 ml-1 mr-2 text-gray-700 hover:text-indigo-600" />Preview</ToggleButton>
+                    <ToggleButton value="code" selected={!toggle} onClick={() => setToggle(false)}><CodeIcon className="block h-4 w-4 ml-1 mr-2 text-gray-700 hover:text-indigo-600" />Code</ToggleButton>
+                </ToggleButtonGroup>
+                </div>
+
+                {toggle && (
                 <div className="px-4 sm:px-6 lg:px-8">
                     <div className="mt-8 flex flex-col">
                         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -101,6 +134,25 @@ export default function Payroll() {
                         </div>
                     </div>
                 </div>
+                )}
+                {!toggle && (
+                    <div className="px-4 sm:px-6 lg:px-8">
+                        <div className="mt-8 flex flex-col">
+                            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                                <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                                <CodeBlock
+                                    text={JSON.stringify(payroll, null, "\t")}
+                                    language='json'
+                                    showLineNumbers={true}
+                                    theme={nord}
+                                />
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )

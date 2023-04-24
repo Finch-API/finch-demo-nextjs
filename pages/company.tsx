@@ -1,9 +1,22 @@
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { EyeIcon, CodeIcon } from '@heroicons/react/outline'
+import { CodeBlock, nord } from "react-code-blocks";
 
 export default function Company() {
   const { data, error } = useSWR('/api/finch/company', { revalidateOnFocus: false })
   const [company, setCompany] = useState<FinchCompany>();
+  const [toggle, setToggle] = useState(true)
+  const [alignment, setAlignment] = useState('web');
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    setAlignment(newAlignment);
+  };
 
   useEffect(() => {
     console.log(data)
@@ -31,82 +44,123 @@ export default function Company() {
           </p>
         </div>
 
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="mt-8 flex flex-col">
-            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                  <div className="overflow-hidden bg-white border border-t-none border-gray-200 sm:rounded-lg sm:rounded-t-none">
-                    <div className="px-4 py-5 sm:px-6">
-                      <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                        <div className="sm:col-span-1">
-                          <dt className="text-sm font-medium text-gray-500">ID</dt>
-                          <dd className="mt-1 text-sm text-gray-900">{company?.id}</dd>
-                        </div>
-                        <div className="sm:col-span-1">
-                          <dt className="text-sm font-medium text-gray-500">Legal Name</dt>
-                          <dd className="mt-1 text-sm text-gray-900">{company?.legal_name}</dd>
-                        </div>
-                        <div className="sm:col-span-1">
-                          <dt className="text-sm font-medium text-gray-500">EIN</dt>
-                          <dd className="mt-1 text-sm text-gray-900">{company?.ein}</dd>
-                        </div>
-                        <div className="sm:col-span-1">
-                          <dt className="text-sm font-medium text-gray-500">Entity Type + Subtype</dt>
-                          <dd className="mt-1 text-sm text-gray-900">{company?.entity?.type}, {company?.entity?.subtype ?? "null"}</dd>
-                        </div>
-                        <div className="sm:col-span-1">
-                          <dt className="text-sm font-medium text-gray-500">Primary Email</dt>
-                          <dd className="mt-1 text-sm text-gray-900">{company?.primary_email}</dd>
-                        </div>
-                        <div className="sm:col-span-1">
-                          <dt className="text-sm font-medium text-gray-500">Primary Phone Number</dt>
-                          <dd className="mt-1 text-sm text-gray-900">{company?.primary_phone_number}</dd>
-                        </div>
-                        <div className="sm:col-span-1">
-                          <dt className="text-sm font-medium text-gray-500">Departments</dt>
-                          <>
-                            {company.departments.map(dept => (
-                              <dd className="mt-1 text-sm text-gray-900">{dept.name}</dd>
-                            ))}
-                          </>
-                        </div>
-                        <div className="sm:col-span-1">
-                          <dt className="text-sm font-medium text-gray-500">Locations</dt>
-                          <>
-                            {company.locations.map(location => (
-                              <>
-                                <dd className="mt-1 text-sm text-gray-900">{location.line1}</dd>
-                                <dd className="mt-1 text-sm text-gray-900">{location.line2}</dd>
-                                <dd className="mt-1 text-sm text-gray-900">{location.city}, {location.state} {location.postal_code}</dd>
-                                <dd className="mt-1 text-sm text-gray-900 mb-6">{location.country}</dd>
-                              </>
-                            ))}
-                          </>
-                        </div>
-                        <div className="sm:col-span-1">
-                          <dt className="text-sm font-medium text-gray-500">Accounts</dt>
-                          <>
-                            {company.accounts.map(account => (
-                              <>
-                                <dd className="mt-1 text-sm text-gray-900">Institution Name: {account?.institution_name ?? 'null'}</dd>
-                                <dd className="mt-1 text-sm text-gray-900">Account Name: {account?.account_name ?? 'null'}</dd>
-                                <dd className="mt-1 text-sm text-gray-900">Account Type: {account?.account_type ?? 'null'}</dd>
-                                <dd className="mt-1 text-sm text-gray-900">Routing Number: {account?.routing_number ?? 'null'}</dd>
-                                <dd className="mt-1 text-sm text-gray-900 mb-6">Account Number: {account?.account_number ?? 'null'}</dd>
-                              </>
-                            ))}
-                          </>
-                        </div>
+        <div style={{
+            display: 'flex',
+            alignItems: 'right',
+            justifyContent: 'right',
+        }}>
+          <ToggleButtonGroup
+            color="primary"
+            value={alignment}
+            exclusive
+            onChange={handleChange}
+            aria-label="Platform"
+            size="small"
+          >
+            <ToggleButton value="preview" selected={toggle} onClick={() => setToggle(true)}><EyeIcon className="block h-4 w-4 ml-1 mr-2 text-gray-700 hover:text-indigo-600" />Preview</ToggleButton>
+            <ToggleButton value="code" selected={!toggle} onClick={() => setToggle(false)}><CodeIcon className="block h-4 w-4 ml-1 mr-2 text-gray-700 hover:text-indigo-600" />Code</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
 
-                      </dl>
+        {toggle && (
+          <div className="px-4 sm:px-6 lg:px-8">
+            <div className="mt-8 flex flex-col">
+              <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                  <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                    <div className="overflow-hidden bg-white border border-t-none border-gray-200 sm:rounded-lg sm:rounded-t-none">
+                      <div className="px-4 py-5 sm:px-6">
+                        <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                          <div className="sm:col-span-1">
+                            <dt className="text-sm font-medium text-gray-500">ID</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{company?.id}</dd>
+                          </div>
+                          <div className="sm:col-span-1">
+                            <dt className="text-sm font-medium text-gray-500">Legal Name</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{company?.legal_name}</dd>
+                          </div>
+                          <div className="sm:col-span-1">
+                            <dt className="text-sm font-medium text-gray-500">EIN</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{company?.ein}</dd>
+                          </div>
+                          <div className="sm:col-span-1">
+                            <dt className="text-sm font-medium text-gray-500">Entity Type + Subtype</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{company?.entity?.type}, {company?.entity?.subtype ?? "null"}</dd>
+                          </div>
+                          <div className="sm:col-span-1">
+                            <dt className="text-sm font-medium text-gray-500">Primary Email</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{company?.primary_email}</dd>
+                          </div>
+                          <div className="sm:col-span-1">
+                            <dt className="text-sm font-medium text-gray-500">Primary Phone Number</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{company?.primary_phone_number}</dd>
+                          </div>
+                          <div className="sm:col-span-1">
+                            <dt className="text-sm font-medium text-gray-500">Departments</dt>
+                            <>
+                              {company.departments.map(dept => (
+                                <dd className="mt-1 text-sm text-gray-900">{dept.name}</dd>
+                              ))}
+                            </>
+                          </div>
+                          <div className="sm:col-span-1">
+                            <dt className="text-sm font-medium text-gray-500">Locations</dt>
+                            <>
+                              {company.locations.map(location => (
+                                <>
+                                  <dd className="mt-1 text-sm text-gray-900">{location.line1}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900">{location.line2}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900">{location.city}, {location.state} {location.postal_code}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900 mb-6">{location.country}</dd>
+                                </>
+                              ))}
+                            </>
+                          </div>
+                          <div className="sm:col-span-1">
+                            <dt className="text-sm font-medium text-gray-500">Accounts</dt>
+                            <>
+                              {company.accounts.map(account => (
+                                <>
+                                  <dd className="mt-1 text-sm text-gray-900">Institution Name: {account?.institution_name ?? 'null'}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900">Account Name: {account?.account_name ?? 'null'}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900">Account Type: {account?.account_type ?? 'null'}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900">Routing Number: {account?.routing_number ?? 'null'}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900 mb-6">Account Number: {account?.account_number ?? 'null'}</dd>
+                                </>
+                              ))}
+                            </>
+                          </div>
+                        </dl>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
+        {!toggle && (
+          <div className="px-4 sm:px-6 lg:px-8">
+            <div className="mt-8 flex flex-col">
+              <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                  <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                    <div className="overflow-hidden bg-white border border-t-none border-gray-200 sm:rounded-lg sm:rounded-t-none">
+
+                        <CodeBlock
+                          text={JSON.stringify(company, null, "\t")}
+                          language='json'
+                          showLineNumbers={true}
+                          theme={nord}
+                        />
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
