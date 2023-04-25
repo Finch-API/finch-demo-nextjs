@@ -1,23 +1,14 @@
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
 import { classNames } from '../util/classnames'
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { EyeIcon, CodeIcon } from '@heroicons/react/outline'
 import { CodeBlock, nord } from "react-code-blocks";
+import { Tab } from '@headlessui/react'
 
 export default function Directory() {
   const { data, error } = useSWR('/api/finch/directory', { revalidateOnFocus: false })
   const [employees, setEmployees] = useState<FinchEmployee[]>();
   const [toggle, setToggle] = useState(true)
-  const [alignment, setAlignment] = useState('web');
-
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string,
-  ) => {
-    setAlignment(newAlignment);
-  };
   
   useEffect(() => {
     console.log(data)
@@ -45,22 +36,15 @@ export default function Directory() {
           </p>
         </div>
 
-         <div style={{
-            display: 'flex',
-            alignItems: 'right',
-            justifyContent: 'right',
-        }}>
-          <ToggleButtonGroup
-            color="primary"
-            value={alignment}
-            exclusive
-            onChange={handleChange}
-            aria-label="Platform"
-            size="small"
-          >
-            <ToggleButton value="preview" selected={toggle} onClick={() => setToggle(true)}><EyeIcon className="block h-4 w-4 ml-1 mr-2 text-gray-700 hover:text-indigo-600" />Preview</ToggleButton>
-            <ToggleButton value="code" selected={!toggle} onClick={() => setToggle(false)}><CodeIcon className="block h-4 w-4 ml-1 mr-2 text-gray-700 hover:text-indigo-600" />Code</ToggleButton>
-          </ToggleButtonGroup>
+        <div className="flex justify-end px-4 sm:px-6 lg:px-8">
+          <div className="flex">
+            <Tab.Group>
+              <Tab.List className="inline-flex rounded-l rounded-r p-1 text-xs">
+                <Tab className={`border-l border-t border-b border-indigo-600 py-2 px-4 rounded-l ${!toggle ? 'text-indigo-600 hover:bg-indigo-600 hover:text-white' : 'bg-indigo-600 text-white'}`} onClick={() => setToggle(true)}><EyeIcon className={`inline-flex h-4 w-4 ml-1 mr-2  ${toggle ? 'hover:text-white' : ''}`} /> Preview</Tab>
+                <Tab className={`border border-indigo-600 py-2 px-4 rounded-r ${toggle ? 'text-indigo-600 hover:bg-indigo-600 hover:text-white' : 'bg-indigo-600 text-white'}`} onClick={() => setToggle(false)}><CodeIcon className={`inline-flex h-4 w-4 ml-1 mr-2 ${toggle ? 'hover:text-white' : ''}`} /> Code</Tab>
+              </Tab.List>
+            </Tab.Group>
+          </div>
         </div>
 
         {toggle && (
