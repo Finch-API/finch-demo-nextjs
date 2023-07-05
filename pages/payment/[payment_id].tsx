@@ -22,16 +22,13 @@ export default function Payment() {
   const [toggle, setToggle] = useState(true)
 
   useEffect(() => {
-    console.log(JSON.stringify(data?.responses[0].body.pay_statements));
     setPayments(data?.responses[0].body.pay_statements);
-    console.log(payments);
   }, [data])
 
   if (!payment_id || !start_date || !end_date) return "payment_id, start_date, and end_date URL parameters are required.";
   if (error) return <pre className="mx-auto max-w-5xl p-10">{JSON.stringify(error.message, null, 2)}</pre>
   if (!data?.responses || !payments) return "";
 
-console.log(payments);
   return (
     <div className="bg-white py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -104,11 +101,8 @@ console.log(payments);
                               </a>
                             </td>
                           </tr>
-
-
                         </>
                       ))}
-
 
                     </tbody>
                   </table>
@@ -250,7 +244,6 @@ console.log(payments);
                         showLineNumbers={true}
                         theme={nord}
                       />
-
                   </div>
                 </div>
               </div>

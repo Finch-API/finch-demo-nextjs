@@ -26,7 +26,6 @@ export default async function Employment(req: NextApiRequest, res: NextApiRespon
                 'Finch-API-Version': '2020-09-17'
             }
         }).then(async (response: AxiosResponse) => {
-            console.log(JSON.stringify(response?.data.responses));
             return res.status(200).json(response?.data.responses[0].body);
         }).catch((err: AxiosError) => {
             switch (err.response?.status) {
