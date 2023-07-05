@@ -31,6 +31,7 @@ export default async function Payment(req: NextApiRequest, res: NextApiResponse)
                     return res.status(500).json("Error retrieving information")
             }
         });
+        console.log(axiosRes);
         return axiosRes
     }
 
