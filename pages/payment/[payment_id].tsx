@@ -1,5 +1,8 @@
 import useSWR from 'swr'
 import { Fragment, useEffect, useState } from 'react'
+import { EyeIcon, CodeIcon } from '@heroicons/react/outline'
+import { CodeBlock, nord } from "react-code-blocks";
+import { Tab } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
@@ -16,9 +19,9 @@ export default function Payment() {
   const [payments, setPayments] = useState<FinchPayStatement[]>()
   const [detailsOpen, setDetailsOpen] = useState(false)
   const [detailsPayment, setDetailsPayment] = useState<FinchPayStatement>()
+  const [toggle, setToggle] = useState(true)
 
   useEffect(() => {
-    console.log(data?.responses[0].body.pay_statements);
     setPayments(data?.responses[0].body.pay_statements);
   }, [data])
 
@@ -50,6 +53,18 @@ export default function Payment() {
           </div>
         </div>
 
+        <div className="flex justify-end px-4 sm:px-6 lg:px-8">
+          <div className="flex">
+            <Tab.Group>
+              <Tab.List className="inline-flex rounded-l rounded-r p-1 text-xs">
+                <Tab className={`border-l border-t border-b border-indigo-600 py-2 px-4 rounded-l ${!toggle ? 'text-indigo-600 hover:bg-indigo-600 hover:text-white' : 'bg-indigo-600 text-white'}`} onClick={() => setToggle(true)}><EyeIcon className={`inline-flex h-4 w-4 ml-1 mr-2  ${toggle ? 'hover:text-white' : ''}`} /> Preview</Tab>
+                <Tab className={`border border-indigo-600 py-2 px-4 rounded-r ${toggle ? 'text-indigo-600 hover:bg-indigo-600 hover:text-white' : 'bg-indigo-600 text-white'}`} onClick={() => setToggle(false)}><CodeIcon className={`inline-flex h-4 w-4 ml-1 mr-2 ${toggle ? 'hover:text-white' : ''}`} /> Code</Tab>
+              </Tab.List>
+            </Tab.Group>
+          </div>
+        </div>
+
+        {toggle && (
         <div className="">
           <div className="mt-8 flex flex-col">
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -86,11 +101,8 @@ export default function Payment() {
                               </a>
                             </td>
                           </tr>
-
-
                         </>
                       ))}
-
 
                     </tbody>
                   </table>
@@ -217,6 +229,28 @@ export default function Payment() {
             </div>
           </div>
         </div>
+        )}
+        {!toggle && (
+          <div className="px-4 sm:px-6 lg:px-8">
+          <div className="mt-8 flex flex-col">
+            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                  <div className="overflow-hidden bg-white border border-t-none border-gray-200 sm:rounded-lg sm:rounded-t-none">
+
+                      <CodeBlock
+                        text={JSON.stringify(payments, null, "\t")}
+                        language='json'
+                        showLineNumbers={true}
+                        theme={nord}
+                      />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        )}
       </div>
     </div>
   )
