@@ -18,7 +18,7 @@ export default async function Sandbox(req: NextApiRequest, res: NextApiResponse)
 
             const body = {
                 provider_id: sandbox_id,
-                products: ["company", "directory", "individual", "employment", "payment", "pay_statement"],
+                products: ["company", "directory", "individual", "employment", "payment", "pay_statement", "benefits"],
                 employee_size: Math.floor(Math.random() * 50)
             }
 
