@@ -2,7 +2,6 @@
 
 # local database
 database.json
-.vscode/
 
 # dependencies
 /node_modules
