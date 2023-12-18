@@ -8,7 +8,9 @@ type FinchConnectOptions = {
     sandbox?: boolean,
     payroll_provider?: string
 }
-const products = ["company", "directory", "individual", "employment", "payment", "pay_statement"]
+const products = ["company", "directory", "individual", "employment", "payment", "pay_statement", "benefits"]
+
+const provider = "provider";
 
 export function FinchConnect(options?: FinchConnectOptions) {
     const onSuccess = async (e: SuccessEvent) => {
@@ -18,12 +20,13 @@ export function FinchConnect(options?: FinchConnectOptions) {
     const onError = (e: ErrorEvent) => console.error(e.errorMessage);
     const onClose = () => console.log("User exited Finch Connect");
 
-    const redirectFinchConnect = `https://connect.tryfinch.com/authorize?client_id=${process.env.NEXT_PUBLIC_FINCH_CLIENT_ID}&products=${products.join(' ')}&redirect_uri=${baseUrl}/api/finch/callback&sandbox=true&state=testing123`
+    const redirectFinchConnect = `https://connect.tryfinch.com/authorize?client_id=${process.env.NEXT_PUBLIC_FINCH_CLIENT_ID}&products=${products.join(' ')}&redirect_uri=${baseUrl}/api/finch/callback&sandbox=provider&state=testing123`
     const { open: embeddedFinchConnect } = useFinchConnect({
         clientId: process.env.NEXT_PUBLIC_FINCH_DEMO_CLIENT_ID ?? '',
         payrollProvider: options?.payroll_provider,
         products: products,
-        sandbox: options?.sandbox, // Set sandbox=false if using Dev or Prod credentials
+        sandbox: provider, // Set sandbox=false if using Dev or Prod credentials
+        manual: false,
         onSuccess,
         onError,
         onClose
