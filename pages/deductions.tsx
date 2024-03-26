@@ -130,7 +130,6 @@ export default function Deductions() {
         const response = await fetch('/api/finch/enroll', {
           method: 'POST',
           headers: {
-            'Finch-API-Version': '2020-09-17',
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(enrollmentData),
@@ -164,7 +163,7 @@ export default function Deductions() {
   if (!data || !employees) return <div>Loading...</div>;
 
   return (
-    <div className="py-12">
+    <div className="bg-white py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
           <h2 className="text-base font-semibold uppercase tracking-wide text-indigo-600">
@@ -210,7 +209,7 @@ export default function Deductions() {
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="bg-white">
                       {employees.map((employee, index) => (
                         <tr className="border-t border-gray-300" key={employee.id}>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{employee?.first_name}</td>
@@ -218,7 +217,7 @@ export default function Deductions() {
                           <td className="px-3 py-4 text-sm text-gray-900 text-left">
                             <Listbox value={benefitData[employee.id]?.type} onChange={(value) => handleBenefitChange(employee.id, 'type', value)}>
                               <Listbox.Button className="border border-gray-300 rounded-md px-4 py-2"><span className="block truncate">{benefitData[employee.id]?.type || "Select Type "} <ChevronDownIcon className="h-5 float-right" /></span></Listbox.Button>
-                              <Listbox.Options className="absolute mt-1 max-h-60 overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                              <Listbox.Options className="absolute mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                                 <Listbox.Option value="fixed" className="cursor-pointer select-none relative py-2 pl-10 pr-4">
                                   Fixed
                                 </Listbox.Option>
@@ -295,7 +294,7 @@ export default function Deductions() {
                 type="text" 
                 id="description" 
                 name="description"
-                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
+                className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2"
                 value={formData.description} 
                 onChange={(e) => handleInputChange('description', e.target.value)} 
               />

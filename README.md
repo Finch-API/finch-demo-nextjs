@@ -24,6 +24,11 @@ BASE_URL=http://localhost:3000
 
 # The base url of Finch APIs
 FINCH_API_URL=https://api.tryfinch.com
+FINCH_SANDBOX_URL=https://sandbox.tryfinch.com/api
+
+# DO NOT CHANGE - Finch Client Id that allows you to enter any provider credentials during demo
+NEXT_PUBLIC_FINCH_DEMO_CLIENT_ID=5dc0e9dc-c411-4e4e-a749-0e35aac43080
+FINCH_DEMO_CLIENT_ID=5dc0e9dc-c411-4e4e-a749-0e35aac43080
 
 # Your Finch Redirect Uri for client-side access
 NEXT_PUBLIC_FINCH_REDIRECT_URI=http://localhost:3000/api/finch/callback

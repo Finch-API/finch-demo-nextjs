@@ -20,7 +20,7 @@ export default function Directory() {
   if (!data || !employees) return ""
 
   return (
-    <div className="py-12">
+    <div className="bg-white py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
           <h2 className="text-base font-semibold uppercase tracking-wide text-indigo-600">
@@ -30,6 +30,8 @@ export default function Directory() {
             Company Directory
           </p>
           <p className="mt-4 mb-16 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+            Read an entire company's employee directory + organizational structure.
+            <br></br>
             Learn more about the <a className='text-indigo-600' href="https://developer.tryfinch.com/docs/reference/12419c085fc0e-directory" target="_blank">/directory</a> API Endpoint.
           </p>
         </div>
