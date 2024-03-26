@@ -19,7 +19,7 @@ export default function Company() {
   if (!data || !company) return ""
 
   return (
-    <div className="bg-white py-12">
+    <div className="py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
           <h2 className="text-base font-semibold uppercase tracking-wide text-indigo-600">
@@ -29,8 +29,6 @@ export default function Company() {
             Company Information
           </p>
           <p className="mt-4 mb-16 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-            Read a company's basic information like legal name, employer identitication number, entity type, etc.
-            <br></br>
             Learn more about the <a className='text-indigo-600' href="https://developer.tryfinch.com/docs/reference/33162be1eed72-company" target="_blank">/company</a> API Endpoint.
           </p>
         </div>
@@ -52,7 +50,7 @@ export default function Company() {
               <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                   <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                    <div className="overflow-hidden bg-white border border-t-none border-gray-200 sm:rounded-lg sm:rounded-t-none">
+                    <div className="overflow-hidden border border-t-none border-gray-200 sm:rounded-lg sm:rounded-t-none">
                       <div className="px-4 py-5 sm:px-6">
                         <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                           <div className="sm:col-span-1">
@@ -129,7 +127,7 @@ export default function Company() {
               <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                   <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                    <div className="overflow-hidden bg-white border border-t-none border-gray-200 sm:rounded-lg sm:rounded-t-none">
+                    <div className="overflow-hidden border border-t-none border-gray-200 sm:rounded-lg sm:rounded-t-none">
 
                         <CodeBlock
                           text={JSON.stringify(company, null, "\t")}

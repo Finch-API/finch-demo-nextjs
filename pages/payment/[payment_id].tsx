@@ -40,8 +40,6 @@ export default function Payment() {
             Pay Statement
           </p>
           <p className="mt-4 mb-16 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-            Read detailed pay statements for each individual.
-            <br></br>
             Learn more about the <a className='text-indigo-600' href="https://developer.tryfinch.com/docs/reference/d5fd02c41e83a-pay-statement" target="_blank">/pay-statement</a> API Endpoint.
           </p>
         </div>

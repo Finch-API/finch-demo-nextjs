@@ -14,8 +14,8 @@ const provider = "provider";
 
 export function FinchConnect(options?: FinchConnectOptions) {
     const onSuccess = async (e: SuccessEvent) => {
-        //return fetch(`/api/finch/callback?code=${e.code}&embedded=${options.embedded}`)
-        return await fetch(`${baseUrl}/api/finch/sandbox/gusto`)
+        return await fetch(`${baseUrl}/api/finch/callback?code=${e.code}&embedded=true`)
+        //return await fetch(`${baseUrl}/api/finch/sandbox/gusto`)
     }
     const onError = (e: ErrorEvent) => console.error(e.errorMessage);
     const onClose = () => console.log("User exited Finch Connect");
