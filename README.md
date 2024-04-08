@@ -49,10 +49,6 @@ NEXT_PUBLIC_FINCH_CLIENT_SECRET=
 
 You can start editing the app by modifying `components/finch-connect.tsx` or `components/navbar.tsx` or `pages/api/finch`. The pages auto-update as you edit the files.
 
-You can download the Finch API data as a CSV file by selecting the download icon next to each section. View the code to convert JSON to CSV in `/pages/api/finch/download`.
-
-Finch Data Types can be found in `types/finch.d.ts`.
-
 ### Notes
 
 - This app uses `node-json-db` package as a "stand-in" database to make it easy to store access tokens. Replace `/util/database.ts` with your preference of database.
