@@ -1,17 +1,10 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { MenuIcon, XIcon, ArrowRightIcon, DownloadIcon } from '@heroicons/react/outline'
+import { MenuIcon, XIcon, ArrowRightIcon, ArrowDownIcon, DownloadIcon } from '@heroicons/react/outline'
 import { FinchConnect } from './finch-connect'
 import { classNames } from '../util/classnames'
 import { baseUrl } from '../util/constants'
 import Image from 'next/image'
-
-
-import gustoLogo from '../public/img/providers/gusto.png'
-import bamboohrLogo from '../public/img/providers/bamboohr.png'
-import paychexLogo from '../public/img/providers/paychex.png'
-import justworksLogo from '../public/img/providers/justworks.png'
-import workdayLogo from '../public/img/providers/workday.png'
 
 const navigation = [
   { name: 'Home', href: '/', download: false, current: false },
@@ -37,7 +30,7 @@ export default function NavBar() {
 
 
   return (
-    <Disclosure as="nav" className="bg-white">
+    <Disclosure as="nav">
       {({ open }) => (
         <>
           <div className=" mx-auto max-w-5xl px-2 sm:px-6 lg:px-8">
@@ -66,33 +59,17 @@ export default function NavBar() {
                     alt="BirdAuth Logo"
                   />
                 </div>
+                <a href='/'>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <div className='flex items-center'>
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className={classNames(
-                            item.current ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600',
-                            'pl-3 py-2 rounded-md text-sm font-medium'
-                          )}
-                          aria-current={item.current ? 'page' : undefined}
-                        >
-                          {item.name}
-                        </a>
-                        {item.download && <a href={item.downloadLink}>
-                          <DownloadIcon className="block h-4 w-4 ml-1 mr-2 text-gray-700 hover:text-indigo-600" />
-                        </a>}
-                      </div>
-
-                    ))}
+                    What the employer's admin does <ArrowDownIcon className="block h-5 w-5 ml-1 mr-2" />
                   </div>
                 </div>
+                </a>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
-                <div className='flex items-center text-sm font-medium text-gray-700'>Create a new connection <ArrowRightIcon className="block h-5 w-5 ml-1 mr-2" /></div>
+              <div className='flex items-center text-m font-medium text-gray-700'>What's available to you<ArrowRightIcon className="block h-5 w-5 ml-1 mr-2" /></div>
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">
@@ -120,7 +97,7 @@ export default function NavBar() {
                         {({ active }) => (
                           <a
                             href="/connection"
-                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            className={classNames(active ? 'bg-gray-100 cursor-pointer bg-white' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Your Connection
                           </a>
@@ -129,86 +106,40 @@ export default function NavBar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href={redirectFinchConnect}
-                            className={classNames(active ? 'bg-gray-100 border-t cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 border-t')}
+                            href='/company'
+                            className={classNames(active ? 'bg-gray-100 border-t cursor-pointer bg-white' : '', 'block px-4 py-2 text-sm text-gray-700 border-t')}
                           >
-                            + Redirect Flow
+                            Company
                           </a>
                         )}
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            onClick={() => embeddedFinchConnect()}
-                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            href='/directory'
+                            className={classNames(active ? 'bg-gray-100 cursor-pointer bg-white' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            + Embed Flow
-                          </a>
-                        )}
-                      </Menu.Item>
-                      {/* <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            onClick={() => FinchConnect({ sandbox: true }).embeddedFinchConnect()}
-                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            + Sandbox Flow
-                          </a>
-                        )}
-                      </Menu.Item> */}
-
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            onClick={() => createNewSandbox("gusto")}
-                            className={classNames(active ? 'bg-gray-100 border-t cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 border-t flex items-center')}
-                          >
-                            <Image src={gustoLogo} width={25} height={25} />
-                            <div className="pl-2">Gusto Sandbox</div>
+                            Directory
                           </a>
                         )}
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            onClick={() => createNewSandbox("bamboo_hr")}
-                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 flex items-center')}
+                            href='/payroll'
+                            className={classNames(active ? 'bg-gray-100 cursor-pointer bg-white' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            <Image src={bamboohrLogo} width={25} height={25} />
-                            <div className="pl-2">BambooHR Sandbox</div>
+                            Payroll
                           </a>
                         )}
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            onClick={() => createNewSandbox("paychex_flex")}
-                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 flex items-center')}
+                          href='/deductions'
+                          className={classNames(active ? 'bg-gray-100 cursor-pointer bg-white' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            <Image src={paychexLogo} width={25} height={25} />
-                            <div className="pl-2">Paychex Sandbox</div>
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            onClick={() => createNewSandbox("justworks")}
-                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 flex items-center')}
-                          >
-                            <Image src={justworksLogo} width={25} height={25} />
-                            <div className="pl-2">Justworks Sandbox</div>
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            onClick={() => createNewSandbox("workday")}
-                            className={classNames(active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 flex items-center')}
-                          >
-                            <Image src={workdayLogo} width={25} height={25} />
-                            <div className="pl-2">Workday Sandbox</div>
+                            Deductions
                           </a>
                         )}
                       </Menu.Item>

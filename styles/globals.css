@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+    background-color: #FAF9F6;
+}
+
 /******************
   NProgress Bar Styles 
 ******************  */

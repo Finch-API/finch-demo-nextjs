@@ -27,7 +27,7 @@ export default function Connection() {
 
   if (token) {
     return (
-      <div className="bg-white py-12">
+      <div className="py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-2">
           <div className="lg:text-center">
             <h2 className="text-base font-semibold uppercase tracking-wide text-indigo-600">
@@ -35,10 +35,6 @@ export default function Connection() {
             </h2>
             <p className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
               Your Connection
-            </p>
-            <p className="mt-4 mb-16 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-              Each connection is represented by an access token. Each token contains the provider name, the username used for login, an array of authorized Finch products (i.e. permissions), and if the connection is automated or manual.
-            </p>
           </div>
 
           <div className="px-4 sm:px-6 lg:px-8">
@@ -59,8 +55,7 @@ export default function Connection() {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="bg-white">
-
+                      <tbody>
                         <tr className="border-t border-gray-300" key={1}>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{token.payroll_provider_id}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">{token.company_id}</td>
@@ -84,7 +79,7 @@ export default function Connection() {
     )
   } else {
     return (
-      <div className="bg-white py-12">
+      <div className="py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="lg:text-center">
             <h2 className="text-base font-semibold uppercase tracking-wide text-indigo-600">
@@ -98,10 +93,10 @@ export default function Connection() {
             </p>
           </div>
 
-          <div className="overflow-hidden bg-white shadow sm:rounded-lg mt-10">
+          <div className="overflow-hidden shadow sm:rounded-lg mt-10">
             <div className="border-t border-gray-200">
               <dl>
-                <div className='bg-white px-4 py-5 sm:grid sm:grid-cols-1 sm:gap-4 sm:px-6'>
+                <div className='px-4 py-5 sm:grid sm:grid-cols-1 sm:gap-4 sm:px-6'>
                   <dt className="text-md font-medium text-gray-500">
                     <div className='flex items-start space-x-4 items-center'>
                       <ExclamationCircleIcon className="h-8 w-8 text-rose-700 mr-2" />

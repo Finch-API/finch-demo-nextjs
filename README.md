@@ -26,10 +26,6 @@ BASE_URL=http://localhost:3000
 FINCH_API_URL=https://api.tryfinch.com
 FINCH_SANDBOX_URL=https://sandbox.tryfinch.com/api
 
-# DO NOT CHANGE - Finch Client Id that allows you to enter any provider credentials during demo
-NEXT_PUBLIC_FINCH_DEMO_CLIENT_ID=5dc0e9dc-c411-4e4e-a749-0e35aac43080
-FINCH_DEMO_CLIENT_ID=5dc0e9dc-c411-4e4e-a749-0e35aac43080
-
 # Your Finch Redirect Uri for client-side access
 NEXT_PUBLIC_FINCH_REDIRECT_URI=http://localhost:3000/api/finch/callback
 
@@ -40,7 +36,22 @@ NEXT_PUBLIC_FINCH_CLIENT_ID=
 FINCH_CLIENT_ID=
 
 # Your Finch application Client Secret for server-side access
+BASE_URL=http://localhost:3000
+
+FINCH_API_URL=https://api.tryfinch.com
+FINCH_SANDBOX_URL=https://api.tryfinch.com
+
+FINCH_CLIENT_ID=
 FINCH_CLIENT_SECRET=
+NEXT_PUBLIC_FINCH_REDIRECT_URI=http://localhost:3000/api/finch/callback
+
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+NEXT_PUBLIC_FINCH_API_URL=https://api.tryfinch.com
+NEXT_PUBLIC_FINCH_SANDBOX_URL=https://api.tryfinch.com
+
+NEXT_PUBLIC_FINCH_CLIENT_ID=
+NEXT_PUBLIC_FINCH_CLIENT_SECRET=
 ```
 
 ### Start Local Application

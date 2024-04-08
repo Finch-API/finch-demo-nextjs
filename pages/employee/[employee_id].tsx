@@ -40,8 +40,6 @@ export default function Employee() {
             Individual + Employment
           </p>
           <p className="mt-4 mb-16 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-            Read individual data including income and employment data.
-            <br></br>
             Learn more about the <a className='text-indigo-600' href="https://developer.tryfinch.com/docs/reference/9d6c83b09e205-individual" target="_blank">/individual</a> and the <a className='text-indigo-600' href="https://developer.tryfinch.com/docs/reference/1ba5cdec4c979-employment" target="_blank">/employment</a> API Endpoints.
           </p>
         </div>
@@ -113,7 +111,7 @@ export default function Employee() {
                       <div className="sm:col-span-1">
                         <>
                           <dt className="text-sm font-medium text-gray-500">Phone Numbers</dt>
-                          {employee.phone_numbers.map((number) => (
+                          {employee.phone_numbers?.map((number) => (
                             <dd className="mt-1 text-sm text-gray-900">{formatPhoneNumber(number.data)} <span className="mt-1 text-sm text-gray-500"> - {number.type}</span></dd>
                           ))}
                         </>
