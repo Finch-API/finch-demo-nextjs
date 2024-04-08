@@ -19,23 +19,6 @@ Create a `.env.local` file under your root project directory (or copy our exampl
 Define the necessary Finch configuration values as follows:
 
 ```
-# The base url of your application
-BASE_URL=http://localhost:3000
-
-# The base url of Finch APIs
-FINCH_API_URL=https://api.tryfinch.com
-FINCH_SANDBOX_URL=https://sandbox.tryfinch.com/api
-
-# Your Finch Redirect Uri for client-side access
-NEXT_PUBLIC_FINCH_REDIRECT_URI=http://localhost:3000/api/finch/callback
-
-# Your Finch application Client ID for client-side access
-NEXT_PUBLIC_FINCH_CLIENT_ID=
-
-# Your Finch application Client ID for server-side access
-FINCH_CLIENT_ID=
-
-# Your Finch application Client Secret for server-side access
 BASE_URL=http://localhost:3000
 
 FINCH_API_URL=https://api.tryfinch.com
