@@ -45,7 +45,7 @@ NEXT_PUBLIC_FINCH_CLIENT_SECRET=
 
 1. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-1. Create a new connection by either selecting `Redirect Flow` or `Embed Flow`. Or if you want to skip [Finch Connect](https://developer.tryfinch.com/docs/reference/4a41b0589896f-overview), you can create a `Gusto Sandbox` to start viewing data.
+1. Create a new connection by either selecting `Redirect Flow` or `Embed Flow`.
 
 You can start editing the app by modifying `components/finch-connect.tsx` or `components/navbar.tsx` or `pages/api/finch`. The pages auto-update as you edit the files.
 
