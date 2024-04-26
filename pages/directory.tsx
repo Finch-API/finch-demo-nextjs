@@ -1,20 +1,37 @@
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
 import { classNames } from '../util/classnames'
-import { EyeIcon, CodeIcon } from '@heroicons/react/outline'
+import { EyeIcon, CodeIcon, ChartBarIcon } from '@heroicons/react/outline'
 import { CodeBlock, nord } from "react-code-blocks";
 import { Tab } from '@headlessui/react'
+import * as d3 from 'd3';
 
 export default function Directory() {
   const { data, error } = useSWR('/api/finch/directory', { revalidateOnFocus: false })
   const [employees, setEmployees] = useState<FinchEmployee[]>();
-  const [toggle, setToggle] = useState(true)
+  const [toggle, setToggle] = useState(1);
   
   useEffect(() => {
-    console.log(data)
-    console.log(error)
-    setEmployees(data?.individuals)
+    console.log(data);
+    console.log(error);
+    setEmployees(data?.individuals);
   }, [data, error])
+
+  function createHierarchy(employee_list: any, managerId = null) {
+    let hierarchy = [];
+  
+    // Find employees who either have the managerId or null as their manager (for top-level)
+    for (let employee of employee_list) {
+      if ((managerId === null && employee.manager.id === null) || (employee.manager.id === managerId)) {
+        let children = createHierarchy(employee_list, employee.id);
+        if (children.length >= 1) {
+          employee.subordinates = children;
+        }
+        hierarchy.push(employee);
+      }
+    }
+    return hierarchy;
+  }
 
   if (error) return <pre className="mx-auto max-w-5xl p-10">{JSON.stringify(error.message, null, 2)}</pre>
   if (!data || !employees) return ""
@@ -38,14 +55,15 @@ export default function Directory() {
           <div className="flex">
             <Tab.Group>
               <Tab.List className="inline-flex rounded-l rounded-r p-1 text-xs">
-                <Tab className={`border-l border-t border-b border-indigo-600 py-2 px-4 rounded-l ${!toggle ? 'text-indigo-600 hover:bg-indigo-600 hover:text-white' : 'bg-indigo-600 text-white'}`} onClick={() => setToggle(true)}><EyeIcon className={`inline-flex h-4 w-4 ml-1 mr-2  ${toggle ? 'hover:text-white' : ''}`} /> Preview</Tab>
-                <Tab className={`border border-indigo-600 py-2 px-4 rounded-r ${toggle ? 'text-indigo-600 hover:bg-indigo-600 hover:text-white' : 'bg-indigo-600 text-white'}`} onClick={() => setToggle(false)}><CodeIcon className={`inline-flex h-4 w-4 ml-1 mr-2 ${toggle ? 'hover:text-white' : ''}`} /> Code</Tab>
+                <Tab className={`border-l border-t border-b border-indigo-600 py-2 px-4 rounded-l ${toggle !== 1 ? 'text-indigo-600 hover:bg-indigo-600 hover:text-white' : 'bg-indigo-600 text-white'}`} onClick={() => setToggle(1)}><EyeIcon className={`inline-flex h-4 w-4 ml-1 mr-2  ${toggle === 1 ? 'hover:text-white' : ''}`} /> Preview</Tab>
+                <Tab className={`border border-indigo-600 py-2 px-4 ${toggle !== 2 ? 'text-indigo-600 hover:bg-indigo-600 hover:text-white' : 'bg-indigo-600 text-white'}`} onClick={() => setToggle(2)}><CodeIcon className={`inline-flex h-4 w-4 ml-1 mr-2 ${toggle !== 1 && toggle !== 3 ? 'hover:text-white' : ''}`} /> Code</Tab>
+                <Tab className={`border-r border-t border-b border-indigo-600 py-2 px-4 rounded-r ${toggle !== 3 ? 'text-indigo-600 hover:bg-indigo-600 hover:text-white' : 'bg-indigo-600 text-white'}`} onClick={() => setToggle(3)}><ChartBarIcon className={`inline-flex h-4 w-4 ml-1 mr-2 ${toggle !== 2 && toggle !== 1 ? 'hover:text-white' : ''}`} /> Org Chart</Tab>
               </Tab.List>
             </Tab.Group>
           </div>
         </div>
 
-        {toggle && (
+        {toggle === 1 && (
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="mt-8 flex flex-col">
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -85,8 +103,6 @@ export default function Directory() {
                           </td>
                         </tr>
                       ))}
-
-
                     </tbody>
                   </table>
                 </div>
@@ -95,7 +111,7 @@ export default function Directory() {
           </div>
         </div>
         )}
-        {!toggle && (
+        {toggle === 2 && (
           <div className="px-4 sm:px-6 lg:px-8">
           <div className="mt-8 flex flex-col">
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -103,6 +119,24 @@ export default function Directory() {
                 <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                 <CodeBlock
                   text={JSON.stringify(employees, null, "\t")}
+                  language='json'
+                  showLineNumbers={true}
+                  theme={nord}
+                />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        )}
+         {toggle === 3 && (
+          <div className="px-4 sm:px-6 lg:px-8">
+          <div className="mt-8 flex flex-col">
+            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                <CodeBlock
+                  text={JSON.stringify(createHierarchy(employees), null, "\t")}
                   language='json'
                   showLineNumbers={true}
                   theme={nord}
