@@ -202,7 +202,7 @@ export default function Payment() {
 
                                         <div>
                                           <label htmlFor="employee_contributions" className="block text-sm font-medium text-gray-500">
-                                            Employee Contributions
+                                            Employer Contributions
                                           </label>
                                           {detailsPayment?.employer_contributions?.map(contribution => (
                                             <div className="mt-1">{formatCurrency(contribution?.amount)} {contribution?.currency.toLocaleUpperCase()} <span className="mt-1 text-sm text-gray-500"> - {contribution?.name} ({contribution?.type})</span></div>

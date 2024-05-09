@@ -12,7 +12,8 @@ const products = ["company", "directory", "individual", "employment", "payment",
 
 export function FinchConnect(options?: FinchConnectOptions) {
     const onSuccess = async (e: SuccessEvent) => {
-        return await fetch(`/api/finch/callback?code=${e.code}}&embedded=true`)
+        console.log("code in fc " + e.code)
+        return await fetch(`/api/finch/callback?code=${e.code}&embedded=true`)
     }
     const onError = (e: ErrorEvent) => console.error(e.errorMessage);
     const onClose = () => console.log("User exited Finch Connect");
