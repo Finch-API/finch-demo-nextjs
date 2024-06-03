@@ -13,10 +13,9 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
         try {
             let code = req.query.code;
             const embedded = req.query.embedded;
-            console.log("code in c " + code)
             let body = {};
             // NOTE: embedded Finch Connect flow will fail if redirect_uri is included in the POST body, since it is not needed because, well, it is embedded and not redirecting.
-            if (embedded) {
+            if (embedded == 'true') {
                 body = {
                     client_id: process.env.FINCH_CLIENT_ID,
                     client_secret: process.env.FINCH_CLIENT_SECRET,
@@ -26,7 +25,8 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
                 body = {
                     client_id: process.env.FINCH_CLIENT_ID,
                     client_secret: process.env.FINCH_CLIENT_SECRET,
-                    code: code
+                    code: code,
+                    redirect_uri: process.env.BASE_URL + "/api/finch/callback"
                 }
             }
 
@@ -40,13 +40,13 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
                 data: body
             });
 
-
             const introRes = await axios({
                 method: 'get',
                 url: `${process.env.FINCH_API_URL}/introspect`,
                 headers: {
                     Authorization: `Bearer ${authRes.data.access_token}`,
-                    'Finch-API-Version': '2020-09-17'
+                    'Finch-API-Version': '2020-09-17',
+                    'Content-Type': 'application/json'
                 },
             });
 
@@ -54,8 +54,6 @@ export default async function Callback(req: NextApiRequest, res: NextApiResponse
                 This is not secure!
                 This is only for demo purposes.
                 Storing access tokens in a secure database and retrieved from a backend server ideal. 
-
-                [insert link to docs]
             */
             database.setConnectionToken(authRes.data.access_token)
 
